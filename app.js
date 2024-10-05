@@ -148,7 +148,7 @@ handleFormSubmission('loginForm', 'login', async () => {
     
     try {
         const response = await apiCall('POST', 'login', { username, password });
-        storeToken(response.token); // Store the token
+        storeToken(response.access_token); // Store the token
         setAuthHeader(); // Set the authorization header
         displayMessage(response.msg || 'Login successful.');
         // Optionally redirect or update UI here
