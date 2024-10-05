@@ -142,10 +142,20 @@ handleFormSubmission('registerForm', 'register', () => ({
 }));
 
 // User login
-handleFormSubmission('loginForm', 'login', () => ({
-    username: document.getElementById('loginUsername').value.trim(),
-    password: document.getElementById('loginPassword').value.trim(),
-}));
+handleFormSubmission('loginForm', 'login', async () => {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    
+    try {
+        const response = await apiCall('POST', 'login', { username, password });
+        storeToken(response.token); // Store the token
+        setAuthHeader(); // Set the authorization header
+        displayMessage(response.msg || 'Login successful.');
+        // Optionally redirect or update UI here
+    } catch (error) {
+        displayMessage(error);
+    }
+});
 
 // Create book
 handleFormSubmission('createBookForm', 'book', () => ({
