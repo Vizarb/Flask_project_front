@@ -92,9 +92,16 @@ document.getElementById('logoutBtn').addEventListener('click', logout);
 const displayPayload = (data, formatFunction, containerId) => {
     const container = document.getElementById(containerId);
     container.innerHTML = ''; // Clear existing content
-    container.innerHTML = data.length > 0 ? data.map(formatFunction).join('') : `<div>No items found.</div>`;
-    if (data.length === 0) displayMessage('No results found.'); // Notify user when no results are found
+
+    // Check if data is an array and has items
+    if (Array.isArray(data) && data.length > 0) {
+        container.innerHTML = data.map(formatFunction).join('');
+    } else {
+        container.innerHTML = `<div>No items found.</div>`;
+        displayMessage('No results found.'); // Notify user when no results are found
+    }
 };
+
 
 // Format functions for different data types
 const formatBook = (book) => `
@@ -174,13 +181,21 @@ document.getElementById('searchBookForm').addEventListener('submit', async (e) =
         displayMessage('Please provide a book name to search.');
         return;
     }
+    
     try {
         const response = await apiCall('POST', 'book/search', { name });
-        displayPayload(response.data, formatBook, 'booksList');
+        
+        // Check if the response is an array
+        if (!Array.isArray(response)) {
+            throw new Error('Invalid response format.');
+        }
+
+        displayPayload(response, formatBook, 'booksList');
     } catch (error) {
-        displayMessage(error);
+        displayMessage(error.message || 'An error occurred while searching for books.');
     }
 });
+
 
 // Toggle book status
 handleFormSubmission('toggleBookStatusForm', 'book/status', () => ({
