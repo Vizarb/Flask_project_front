@@ -127,6 +127,25 @@ const handleFormSubmission = async (formId, endpoint, data) => {
     });
 };
 
+// Function to toggle visibility based on login status
+const updateUI = () => {
+    const loginForm = document.getElementById('loginForm');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (isLoggedIn()) {
+        loginForm.classList.add('d-none'); // Hide the login form
+        logoutBtn.classList.remove('d-none'); // Show the logout button
+    } else {
+        loginForm.classList.remove('d-none'); // Show the login form
+        logoutBtn.classList.add('d-none'); // Hide the logout button
+    }
+};
+
+// Call updateUI on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateUI(); // Update the UI based on login status
+});
+
 // User registration
 handleFormSubmission('registerForm', 'register', () => ({
     username: document.getElementById('registerUsername').value.trim(),
@@ -134,22 +153,19 @@ handleFormSubmission('registerForm', 'register', () => ({
 }));
 
 
-// User login logic
+// User login
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
 
-    // Perform login
     try {
         const response = await apiCall('POST', 'login', { username, password });
         storeToken(response.access_token); // Store the token
         setAuthHeader(); // Set the authorization header
         displayMessage(response.msg || 'Login successful.');
-
-        // Hide the login form upon successful login
-        document.getElementById('loginForm').classList.add('d-none');
-        document.getElementById('logoutBtn').classList.remove('d-none'); // Show logout button
+        updateUI(); // Update the UI after successful login
     } catch (error) {
         displayMessage(error);
     }
@@ -180,18 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
 const logout = async () => {
     try {
         await apiCall('POST', 'logout');
-        clearToken();
+        clearToken(); // Clear the token
         displayMessage('Logged out successfully.');
+        updateUI(); // Update the UI after logout
         window.location.href = 'index.html'; // Redirect to login after logout
-
-        // Hide the login form upon successful login
-        document.getElementById('loginForm').classList.remove('d-none');
-        document.getElementById('logoutBtn').classList.add('d-none'); // Show logout button
-        
     } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
     }
 };
+
 
 
 // Attach logout event listener
