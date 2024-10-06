@@ -266,8 +266,8 @@ document.getElementById('createLoanForm').addEventListener('submit', async (e) =
         const customerId = customerResponse[0].id;
 
         const loanResponse = await apiCall('POST', 'loan', {
-            book_id: bookId,
             customer_id: customerId,
+            book_id: bookId,
             loan_time_type: duration
         });
 
