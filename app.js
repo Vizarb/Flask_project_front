@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUI(); // Update the UI based on login status
     returnLoan();
     // Call this function only on the clerk page
-    if (window.location.pathname === '/clerk.html') {
+    if (window.location.pathname.includes('clerk.html')) {
         redirectToLoginIfNotLoggedIn();
     }
 });
