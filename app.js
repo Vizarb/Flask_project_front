@@ -1,5 +1,41 @@
 const apiUrl = 'https://flask-project-a035.onrender.com'; // Replace with your API URL
 
+// should add if needed
+// const validateFormData = (data) => {
+//     // Check for required fields
+//     const requiredFields = ['username', 'password', 'email', 'full_name']; // Add required fields as necessary
+//     for (const field of requiredFields) {
+//         if (!data[field] || data[field].trim() === '') {
+//             displayMessage(`${field} is required.`);
+//             return false;
+//         }
+//     }
+
+//     // Email format validation (basic regex check)
+//     if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+//         displayMessage('Please enter a valid email address.');
+//         return false;
+//     }
+
+//     // Numeric field validation (if applicable)
+//     if (data.age && (isNaN(data.age) || data.age <= 0)) {
+//         displayMessage('Age must be a positive number.');
+//         return false;
+//     }
+
+//     // Check if specific fields meet criteria (e.g., password strength)
+//     if (data.password && (data.password.length < 6)) {
+//         displayMessage('Password must be at least 6 characters long.');
+//         return false;
+//     }
+
+//     // Add more specific validation checks as needed for your application
+
+//     // All checks passed
+//     return true;
+// };
+
+
 // Function to store token in local storage
 const storeToken = (token) => localStorage.setItem('jwtToken', token);
 
@@ -19,6 +55,13 @@ const clearToken = () => {
     localStorage.removeItem('jwtToken');
     delete axios.defaults.headers.common['Authorization'];
 };
+
+
+// need to implement before prod
+// const setupEventListeners = () => {
+
+    
+// };
 
 // Set the token header when the app loads
 setAuthHeader();
@@ -141,10 +184,7 @@ const updateUI = () => {
     }
 };
 
-// Call updateUI on page load
-document.addEventListener('DOMContentLoaded', () => {
-    updateUI(); // Update the UI based on login status
-});
+
 
 // User registration
 handleFormSubmission('registerForm', 'register', () => ({
@@ -183,14 +223,6 @@ const redirectToLoginIfNotLoggedIn = () => {
         window.location.href = 'login.html'; // Change to your login page URL
     }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Call this function only on the clerk page
-    if (window.location.pathname.includes('clerk.html')) {
-        redirectToLoginIfNotLoggedIn();
-    }
-});
-
 
 // Logout function
 const logout = async () => {
@@ -359,7 +391,7 @@ document.getElementById('getCustomersBtn').addEventListener('click', async () =>
 });
 
 // Return loan
-document.addEventListener('DOMContentLoaded', () => {
+function returnLoan() {
     document.getElementById('returnLoanForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const loanId = document.getElementById('returnLoanId').value.trim();
@@ -376,12 +408,25 @@ document.addEventListener('DOMContentLoaded', () => {
             displayMessage(error);
         }
     });
-});
+}
 
 // Initialize Bootstrap toasts on page load
-document.addEventListener('DOMContentLoaded', () => {
+const toastWrap = () => {
     const toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    const toastList = toastElList.map(function (toastEl) {
+    const toastList = toastElList.map((toastEl) => {
         return new bootstrap.Toast(toastEl);
     });
+};
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Call functions on page load
+    toastWrap(); // Initialize Bootstrap toasts on page load
+    updateUI(); // Update the UI based on login status
+    returnLoan();
+    // Call this function only on the clerk page
+    if (window.location.pathname.includes('clerk.html')) {
+        redirectToLoginIfNotLoggedIn();
+    }
 });
