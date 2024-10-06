@@ -152,9 +152,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         setAuthHeader(); // Set the authorization header
         displayMessage(response.msg || 'Login successful.');
 
-        // Update UI: Show logout button and hide login form
-        document.getElementById('logoutBtn').classList.remove('d-none');
+        // Hide the login form upon successful login
         document.getElementById('loginForm').classList.add('d-none');
+        document.getElementById('logoutBtn').classList.remove('d-none'); // Show logout button
     } catch (error) {
         displayMessage(error);
     }
@@ -216,10 +216,10 @@ document.getElementById('searchBookForm').addEventListener('submit', async (e) =
         displayMessage('Please provide a book name to search.');
         return;
     }
-    
+
     try {
         const response = await apiCall('POST', 'book/search', { name });
-        
+
         // Check if the response is an array
         if (!Array.isArray(response)) {
             throw new Error('Invalid response format.');
