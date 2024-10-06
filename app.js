@@ -79,10 +79,12 @@ const logout = async () => {
         await apiCall('POST', 'logout');
         clearToken();
         displayMessage('Logged out successfully.');
+        window.location.href = 'index.html'; // Redirect to login after logout
     } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
     }
 };
+
 
 // Attach logout event listener
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -162,6 +164,26 @@ handleFormSubmission('loginForm', 'login', async () => {
         displayMessage(error);
     }
 });
+
+// Function to check if the user is logged in
+const isLoggedIn = () => {
+    return !!getToken();
+};
+
+// Redirect to login if not logged in
+const redirectToLoginIfNotLoggedIn = () => {
+    if (!isLoggedIn()) {
+        window.location.href = 'login.html'; // Change to your login page URL
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Call this function only on the clerks page
+    if (window.location.pathname.includes('clerks.html')) {
+        redirectToLoginIfNotLoggedIn();
+    }
+});
+
 
 // Create book
 handleFormSubmission('createBookForm', 'book', () => ({
