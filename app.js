@@ -222,10 +222,15 @@ document.getElementById('searchCustomerForm').addEventListener('submit', async (
     }
 
     try {
-        const response = await apiCall('POST', 'customer/search', { email, full_name: fullName });
-        displayPayload(response.data, formatCustomer, 'customersList');
+        const response = await apiCall('POST', 'customer/search', { email: email, full_name: fullName });
+        // Check if the response is an array
+        if (!Array.isArray(response)) {
+            throw new Error('Invalid response format.');
+        }
+
+        displayPayload(response, formatCustomer, 'customersList');
     } catch (error) {
-        displayMessage(error);
+        displayMessage(error.message || 'An error occurred while searching for customers.');
     }
 });
 
