@@ -178,8 +178,8 @@ const redirectToLoginIfNotLoggedIn = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Call this function only on the clerks page
-    if (window.location.pathname.includes('clerks.html')) {
+    // Call this function only on the clerk page
+    if (window.location.pathname.includes('clerk.html')) {
         redirectToLoginIfNotLoggedIn();
     }
 });
