@@ -385,8 +385,10 @@ document.getElementById('createLoanForm').addEventListener('submit', async (e) =
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Get all books based on selected type
+    console.log("DOM fully loaded and parsed");
+
     document.getElementById('getBooksBtn').addEventListener('click', async () => {
+        console.log("Get Books button clicked");
         const bookType = document.getElementById('bookTypeSelect').value;
         try {
             const response = await apiCall('GET', `books?status=${bookType}`);
@@ -396,6 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
 
 
 // Get all loans based on selected type
