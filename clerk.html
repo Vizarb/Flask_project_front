@@ -145,101 +145,105 @@
             </div>
         </div>
 
-        <!-- Logout Button -->
-        <button id="logoutBtn" class="btn btn-secondary mb-4">Logout</button>
-    </div>
+        <!-- Footer Section -->
+        <footer class="text-center mt-5">
+            <p>&copy; 2024 Library System. All rights reserved.</p>
+        </footer>
 
-    <!-- Footer Section -->
-    <footer class="text-center mt-5">
-        <p>&copy; 2024 Library System. All rights reserved.</p>
-    </footer>
-
-    <!-- Create Book Modal -->
-    <div class="modal fade" id="createBookModal" tabindex="-1" aria-labelledby="createBookModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createBookModalLabel">Create Book</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="createBookForm">
-                        <div class="mb-3">
-                            <label for="bookName" class="form-label">Book Name</label>
-                            <input type="text" class="form-control" id="bookName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bookAuthor" class="form-label">Author</label>
-                            <input type="text" class="form-control" id="bookAuthor" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="yearPublished" class="form-label">Year Published</label>
-                            <input type="text" class="form-control" id="yearPublished" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="loanTimeType" class="form-label">Loan Time Type</label>
-                            <input type="text" class="form-control" id="loanTimeType" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bookCategory" class="form-label">Category</label>
-                            <input type="text" class="form-control" id="bookCategory" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create Book</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Register Customer Modal -->
-    <div class="modal fade" id="registerCustomerModal" tabindex="-1" aria-labelledby="registerCustomerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerCustomerModalLabel">Register Customer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="registerCustomerForm">
-                        <div class="mb-3">
-                            <label for="customerName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="customerName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="customerEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="customerEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="customerCity" class="form-label">City</label>
-                            <input type="text" class="form-control" id="customerCity" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="customerAge" class="form-label">Age</label>
-                            <input type="number" class="form-control" id="customerAge" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="customerRole" class="form-label">Role</label>
-                            <select class="form-control" id="customerRole" required>
-                                <option value="CUSTOMER" selected>Customer</option>
-                                <option value="CLERK">Clerk</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Register Customer</button>
-                    </form>
+        <!-- Create Book Modal -->
+        <div class="modal fade" id="createBookModal" tabindex="-1" aria-labelledby="createBookModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createBookModalLabel">Create Book</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="createBookForm">
+                            <div class="mb-3">
+                                <label for="bookName" class="form-label">Book Name</label>
+                                <input type="text" class="form-control" id="bookName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookAuthor" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="bookAuthor" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="yearPublished" class="form-label">Year Published</label>
+                                <input type="number" class="form-control" id="yearPublished" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loanTimeType" class="form-label">Loan Time Type</label>
+                                <select class="form-control" id="loanTimeType" required>
+                                    <option value="TEN_DAYS">10 Days</option>
+                                    <option value="FIVE_DAYS">5 Days</option>
+                                    <option value="TWO_DAYS">2 Days</option>
+                                    <option value="FOURTEEN_DAYS">14 Days</option>
+                                    <option value="SEVEN_DAYS">7 Days</option>
+                                    <option value="ONE_DAY">1 Day</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookCategory" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="bookCategory" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Book</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Toast Notifications -->
-    <div class="toast-container position-fixed top-0 end-0 p-3">
-        <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">Notification</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <!-- Register Customer Modal -->
+        <div class="modal fade" id="registerCustomerModal" tabindex="-1" aria-labelledby="registerCustomerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerCustomerModalLabel">Register Customer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registerCustomerForm">
+                            <div class="mb-3">
+                                <label for="customerName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="customerName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="customerEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="customerEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="customerCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="customerCity" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="customerAge" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="customerAge" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="customerRole" class="form-label">Role</label>
+                                <select class="form-control" id="customerRole" required>
+                                    <option value="CUSTOMER" selected>Customer</option>
+                                    <option value="CLERK">Clerk</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register Customer</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="toast-body" id="toastBody">
-                <!-- Message will be displayed here -->
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Notification</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastBody">
+                    <!-- Message will be displayed here -->
+                </div>
             </div>
         </div>
     </div>
