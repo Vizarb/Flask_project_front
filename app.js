@@ -73,22 +73,6 @@ const checkUserExists = async (username) => {
     }
 };
 
-// Logout function
-const logout = async () => {
-    try {
-        await apiCall('POST', 'logout');
-        clearToken();
-        displayMessage('Logged out successfully.');
-        window.location.href = 'index.html'; // Redirect to login after logout
-    } catch (error) {
-        displayMessage(error.response?.data?.msg || 'Logout failed.');
-    }
-};
-
-
-// Attach logout event listener
-document.getElementById('logoutBtn').addEventListener('click', logout);
-
 // Display payload in the specified container
 const displayPayload = (data, formatFunction, containerId) => {
     const container = document.getElementById(containerId);
@@ -149,21 +133,33 @@ handleFormSubmission('registerForm', 'register', () => ({
     password: document.getElementById('registerPassword').value.trim(),
 }));
 
-// User login
-handleFormSubmission('loginForm', 'login', async () => {
+// Toggle login form visibility
+document.getElementById('showLoginBtn').addEventListener('click', () => {
+    const loginForm = document.getElementById('loginForm');
+    loginForm.classList.toggle('d-none'); // Toggle visibility
+});
+
+// User login logic
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
-    
+
+    // Perform login
     try {
         const response = await apiCall('POST', 'login', { username, password });
         storeToken(response.access_token); // Store the token
         setAuthHeader(); // Set the authorization header
         displayMessage(response.msg || 'Login successful.');
-        // Optionally redirect or update UI here
+
+        // Update UI: Show logout button and hide login form
+        document.getElementById('logoutBtn').classList.remove('d-none');
+        document.getElementById('loginForm').classList.add('d-none');
     } catch (error) {
         displayMessage(error);
     }
 });
+
 
 // Function to check if the user is logged in
 const isLoggedIn = () => {
@@ -183,6 +179,24 @@ document.addEventListener('DOMContentLoaded', () => {
         redirectToLoginIfNotLoggedIn();
     }
 });
+
+
+// Logout function
+const logout = async () => {
+    try {
+        await apiCall('POST', 'logout');
+        clearToken();
+        displayMessage('Logged out successfully.');
+        window.location.href = 'index.html'; // Redirect to login after logout
+    } catch (error) {
+        displayMessage(error.response?.data?.msg || 'Logout failed.');
+    }
+};
+
+
+// Attach logout event listener
+document.getElementById('logoutBtn').addEventListener('click', logout);
+
 
 
 // Create book

@@ -50,12 +50,22 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a class="btn btn-primary me-2" href="login.html">Login</a>
-                    <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+                    <!-- Login Form -->
+                    <form id="loginForm" class="d-none">
+                        <input type="text" id="loginUsername" class="form-control me-2" placeholder="Username" required>
+                        <input type="password" id="loginPassword" class="form-control me-2" placeholder="Password" required>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <!-- Logout Button -->
+                    <button id="logoutBtn" class="btn btn-secondary d-none">Logout</button>
+                    <!-- Show Login Button -->
+                    <button id="showLoginBtn" class="btn btn-outline-primary ms-2">Login</button>
                 </div>
             </div>
         </div>
     </nav>
+
+    
 
     <!-- Loading Indicator -->
     <div id="loadingIndicator" class="loading-indicator" style="display: none;">
