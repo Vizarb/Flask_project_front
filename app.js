@@ -81,7 +81,6 @@ const logout = async () => {
         displayMessage('Logged out successfully.');
     } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
-        console.error(error); // Log the error for debugging
     }
 };
 
