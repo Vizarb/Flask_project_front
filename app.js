@@ -220,7 +220,7 @@ const isLoggedIn = () => {
 // Redirect to login if not logged in
 const redirectToLoginIfNotLoggedIn = () => {
     if (!isLoggedIn()) {
-        window.location.href = 'login.html'; // Change to your login page URL
+        window.location.href = 'index.html'; // Change to your login page URL
     }
 };
 
