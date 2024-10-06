@@ -210,6 +210,11 @@ handleFormSubmission('registerCustomerForm', 'customer', () => ({
     age: parseInt(document.getElementById('customerAge').value.trim()),
 }));
 
+// Toggle customer status
+handleFormSubmission('toggleCustomerStatusForm', 'customer/status', () => ({
+    email: document.getElementById('toggleCustomerEmail').value.trim(),
+}));
+
 // Search customer
 document.getElementById('searchCustomerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
