@@ -167,6 +167,17 @@
         </div>
     </div>
 
+    <!-- Toggle Book Status Form -->
+    <div class="card">
+        <div class="card-body">
+            <h2 class="section-title">Toggle Book Status</h2>
+            <form id="toggleBookStatusForm" class="mb-4">
+                <input type="text" class="form-control mb-3" id="toggleBookName" placeholder="Book Name" required>
+                <button type="submit" class="btn btn-primary">Toggle Status</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Register Customer Modal -->
     <div class="modal fade" id="registerCustomerModal" tabindex="-1" aria-labelledby="registerCustomerModalLabel"
         aria-hidden="true">
@@ -209,6 +220,21 @@
         </div>
     </div>
 
+    <!-- Search Customer Form -->
+    <div class="card">
+        <div class="card-body">
+            <h2 class="section-title">Search Customer</h2>
+            <form id="searchCustomerForm" class="mb-4">
+                <input type="text" class="form-control mb-3" id="searchCustomerName" placeholder="Customer Name"
+                    required>
+                <input type="email" class="form-control mb-3" id="searchCustomerEmail"
+                    placeholder="Customer Email (optional)">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+
     <!-- Create Loan Modal -->
     <div class="modal fade" id="createLoanModal" tabindex="-1" aria-labelledby="createLoanModalLabel"
         aria-hidden="true">
@@ -243,6 +269,30 @@
         </div>
     </div>
 
+    <!-- Toggle Customer Status Form -->
+    <div class="card">
+        <div class="card-body">
+            <h2 class="section-title">Toggle Customer Status</h2>
+            <form id="toggleCustomerStatusForm" class="mb-4">
+                <input type="email" class="form-control mb-3" id="toggleCustomerEmail" placeholder="Customer Email"
+                    required>
+                <button type="submit" class="btn btn-primary">Toggle Status</button>
+            </form>
+        </div>
+
+    </div>
+    Return Loan Form
+    <div class="card">
+        <div class="card-body">
+            <h2 class="section-title">Return Loan</h2>
+            <form id="returnLoanForm" class="mb-4">
+                <input type="number" class="form-control mb-3" id="returnLoanId" placeholder="Loan ID" required>
+                <button type="submit" class="btn btn-primary">Return Loan</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
     <!-- Toast Notifications -->
     <div class="toast-container position-fixed top-0 end-0 p-3">
         <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -255,7 +305,17 @@
             </div>
         </div>
     </div>
-
+    Return Loan Form
+    <div class="card">
+        <div class="card-body">
+            <h2 class="section-title">Return Loan</h2>
+            <form id="returnLoanForm" class="mb-4">
+                <input type="number" class="form-control mb-3" id="returnLoanId" placeholder="Loan ID" required>
+                <button type="submit" class="btn btn-primary">Return Loan</button>
+            </form>
+        </div>
+    </div>
+    </div>
     <!-- <script>
         // Check if user is logged in as clerk
         function checkClerkSession() {
@@ -275,7 +335,12 @@
         document.getElementById('registerCustomerForm').addEventListener('submit', registerCustomer);
         document.getElementById('getLoansBtn').addEventListener('click', getLoans);
         document.getElementById('createLoanForm').addEventListener('submit', createLoan);
-        document.getElementById('logoutBtn').addEventListener('click', logout);
+        document.getElementById('logoutBtn').addEventListener('click', logout); -->
+
+            <!-- Footer Section -->
+    <footer class="text-center mt-5">
+        <p>&copy; 2024 Library System. All rights reserved.</p>
+    </footer>
 
 </body>
 
