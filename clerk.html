@@ -69,7 +69,7 @@
     <div class="container my-5">
         <h1 class="text-center mb-4">Clerk Dashboard</h1>
 
-        <!-- User Operations -->
+        <!-- Manage Books -->
         <div class="card mb-4">
             <div class="card-body">
                 <h2 class="section-title">Manage Books</h2>
@@ -80,11 +80,42 @@
                     <option value="all">All Books</option>
                 </select>
                 <button id="getBooksBtn" class="btn btn-primary">Get Books</button>
-                <button id="createBookBtn" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createBookModal">Create Book</button>
-                <div id="booksList" class="mt-3"></div>
+
+                <h5 class="mt-4">Create Book</h5>
+                <form id="createBookForm" class="mt-3">
+                    <div class="mb-3">
+                        <label for="bookName" class="form-label">Book Name</label>
+                        <input type="text" class="form-control" id="bookName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="bookAuthor" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="bookAuthor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="yearPublished" class="form-label">Year Published</label>
+                        <input type="number" class="form-control" id="yearPublished" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loanTimeType" class="form-label">Loan Time Type</label>
+                        <select class="form-control" id="loanTimeType" required>
+                            <option value="TEN_DAYS">10 Days</option>
+                            <option value="FIVE_DAYS">5 Days</option>
+                            <option value="TWO_DAYS">2 Days</option>
+                            <option value="FOURTEEN_DAYS">14 Days</option>
+                            <option value="SEVEN_DAYS">7 Days</option>
+                            <option value="ONE_DAY">1 Day</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="bookCategory" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="bookCategory" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Book</button>
+                </form>
             </div>
         </div>
 
+        <!-- Manage Customers -->
         <div class="card mb-4">
             <div class="card-body">
                 <h2 class="section-title">Manage Customers</h2>
@@ -95,11 +126,38 @@
                     <option value="inactive">Inactive Customers</option>
                 </select>
                 <button id="getCustomersBtn" class="btn btn-primary">Get All Customers</button>
-                <button id="registerCustomerBtn" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registerCustomerModal">Register Customer</button>
-                <div id="customersList" class="mt-3"></div>
+
+                <h5 class="mt-4">Register Customer</h5>
+                <form id="registerCustomerForm" class="mt-3">
+                    <div class="mb-3">
+                        <label for="customerName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="customerName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="customerEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerCity" class="form-label">City</label>
+                        <input type="text" class="form-control" id="customerCity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerAge" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="customerAge" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerRole" class="form-label">Role</label>
+                        <select class="form-control" id="customerRole" required>
+                            <option value="CUSTOMER" selected>Customer</option>
+                            <option value="CLERK">Clerk</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register Customer</button>
+                </form>
             </div>
         </div>
 
+        <!-- Manage Loans -->
         <div class="card mb-4">
             <div class="card-body">
                 <h2 class="section-title">Manage Loans</h2>
@@ -110,140 +168,39 @@
                     <option value="inactive">Inactive Loans</option>
                 </select>
                 <button id="getLoansBtn" class="btn btn-primary">Get All Loans</button>
-                <button id="createLoanBtn" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createLoanModal">Create Loan</button>
-                <div id="loansList" class="mt-3"></div>
+
+                <h5 class="mt-4">Create Loan</h5>
+                <form id="createLoanForm" class="mt-3">
+                    <div class="mb-3">
+                        <label for="loanBookId" class="form-label">Book ID</label>
+                        <input type="number" class="form-control" id="loanBookId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loanCustomerId" class="form-label">Customer ID</label>
+                        <input type="number" class="form-control" id="loanCustomerId" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Loan</button>
+                </form>
             </div>
         </div>
 
+        <!-- Toggle Book Status -->
         <div class="card mb-4">
             <div class="card-body">
                 <h2 class="section-title">Toggle Book Status</h2>
-                <form id="toggleBookStatusForm" class="mb-4">
-                    <input type="text" class="form-control mb-3" id="toggleBookName" placeholder="Book Name" required>
-                    <button type="submit" class="btn btn-primary">Toggle Status</button>
-                </form>
+                <label for="toggleBookId">Book ID:</label>
+                <input type="number" class="form-control mb-3" id="toggleBookId" required>
+                <button id="toggleBookStatusBtn" class="btn btn-warning">Toggle Status</button>
             </div>
         </div>
 
+        <!-- Toggle Customer Status -->
         <div class="card mb-4">
             <div class="card-body">
                 <h2 class="section-title">Toggle Customer Status</h2>
-                <form id="toggleCustomerStatusForm" class="mb-4">
-                    <input type="email" class="form-control mb-3" id="toggleCustomerEmail" placeholder="Customer Email" required>
-                    <button type="submit" class="btn btn-primary">Toggle Status</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="section-title">Return Loan</h2>
-                <form id="returnLoanForm" class="mb-4">
-                    <input type="number" class="form-control mb-3" id="returnLoanId" placeholder="Loan ID" required>
-                    <button type="submit" class="btn btn-primary">Return Loan</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Footer Section -->
-        <footer class="text-center mt-5">
-            <p>&copy; 2024 Library System. All rights reserved.</p>
-        </footer>
-
-        <!-- Create Book Modal -->
-        <div class="modal fade" id="createBookModal" tabindex="-1" aria-labelledby="createBookModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createBookModalLabel">Create Book</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="createBookForm">
-                            <div class="mb-3">
-                                <label for="bookName" class="form-label">Book Name</label>
-                                <input type="text" class="form-control" id="bookName" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="bookAuthor" class="form-label">Author</label>
-                                <input type="text" class="form-control" id="bookAuthor" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="yearPublished" class="form-label">Year Published</label>
-                                <input type="number" class="form-control" id="yearPublished" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="loanTimeType" class="form-label">Loan Time Type</label>
-                                <select class="form-control" id="loanTimeType" required>
-                                    <option value="TEN_DAYS">10 Days</option>
-                                    <option value="FIVE_DAYS">5 Days</option>
-                                    <option value="TWO_DAYS">2 Days</option>
-                                    <option value="FOURTEEN_DAYS">14 Days</option>
-                                    <option value="SEVEN_DAYS">7 Days</option>
-                                    <option value="ONE_DAY">1 Day</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="bookCategory" class="form-label">Category</label>
-                                <input type="text" class="form-control" id="bookCategory" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Create Book</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Register Customer Modal -->
-        <div class="modal fade" id="registerCustomerModal" tabindex="-1" aria-labelledby="registerCustomerModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="registerCustomerModalLabel">Register Customer</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="registerCustomerForm">
-                            <div class="mb-3">
-                                <label for="customerName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="customerName" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="customerEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="customerEmail" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="customerCity" class="form-label">City</label>
-                                <input type="text" class="form-control" id="customerCity" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="customerAge" class="form-label">Age</label>
-                                <input type="number" class="form-control" id="customerAge" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="customerRole" class="form-label">Role</label>
-                                <select class="form-control" id="customerRole" required>
-                                    <option value="CUSTOMER" selected>Customer</option>
-                                    <option value="CLERK">Clerk</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Register Customer</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Toast Notifications -->
-        <div class="toast-container position-fixed top-0 end-0 p-3">
-            <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Notification</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body" id="toastBody">
-                    <!-- Message will be displayed here -->
-                </div>
+                <label for="toggleCustomerId">Customer ID:</label>
+                <input type="number" class="form-control mb-3" id="toggleCustomerId" required>
+                <button id="toggleCustomerStatusBtn" class="btn btn-warning">Toggle Status</button>
             </div>
         </div>
     </div>
