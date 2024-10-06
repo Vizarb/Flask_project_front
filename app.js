@@ -384,16 +384,19 @@ document.getElementById('createLoanForm').addEventListener('submit', async (e) =
     }
 });
 
-// Get all books based on selected type
-document.getElementById('getBooksBtn').addEventListener('click', async () => {
-    const bookType = document.getElementById('bookTypeSelect').value;
-    try {
-        const response = await apiCall('GET', `books?status=${bookType}`);
-        displayPayload(response, formatBook, 'booksList');
-    } catch (error) {
-        displayMessage(error);
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all books based on selected type
+    document.getElementById('getBooksBtn').addEventListener('click', async () => {
+        const bookType = document.getElementById('bookTypeSelect').value;
+        try {
+            const response = await apiCall('GET', `books?status=${bookType}`);
+            displayPayload(response, formatBook, 'booksList');
+        } catch (error) {
+            displayMessage(error);
+        }
+    });
 });
+
 
 // Get all loans based on selected type
 document.getElementById('getLoansBtn').addEventListener('click', async () => {
