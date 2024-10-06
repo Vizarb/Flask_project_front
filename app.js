@@ -63,8 +63,19 @@ const clearToken = () => {
     
 // };
 
+const validateRole = (role) => {
+    const validRoles = ['customer', 'clerk']; // Replace with your actual role names
+    if (!validRoles.includes(role)) {
+        displayMessage('Invalid role selected.');
+        return false;
+    }
+    return true;
+};
+
 // Set the token header when the app loads
 setAuthHeader();
+
+
 
 // Display loading indicator
 const showLoading = () => {
@@ -187,10 +198,26 @@ const updateUI = () => {
 
 
 // User registration
-handleFormSubmission('registerForm', 'register', () => ({
-    username: document.getElementById('registerUsername').value.trim(),
-    password: document.getElementById('registerPassword').value.trim(),
-}));
+handleFormSubmission('registerForm', 'register', () => {
+    const username = document.getElementById('registerUsername').value.trim();
+    const password = document.getElementById('registerPassword').value.trim();
+    
+    // Optional role input (if provided)
+    const roleInput = document.getElementById('registerRole');
+    const role = roleInput ? roleInput.value.trim() : ''; // Get the role if it exists
+
+    // If no role is provided, default to 'CUSTOMER'
+    const finalRole = role || 'CUSTOMER'; 
+
+    // Validate the role before proceeding
+    if (!validateRole(finalRole)) {
+        displayMessage('Invalid role selected.'); // Notify user if role is invalid
+        return; // Stop submission if the role is invalid
+    }
+
+    return { username, password, role: finalRole }; // Return the data for submission
+});
+
 
 
 // User login
