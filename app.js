@@ -133,11 +133,6 @@ handleFormSubmission('registerForm', 'register', () => ({
     password: document.getElementById('registerPassword').value.trim(),
 }));
 
-// Toggle login form visibility
-document.getElementById('showLoginBtn').addEventListener('click', () => {
-    const loginForm = document.getElementById('loginForm');
-    loginForm.classList.toggle('d-none'); // Toggle visibility
-});
 
 // User login logic
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -188,6 +183,11 @@ const logout = async () => {
         clearToken();
         displayMessage('Logged out successfully.');
         window.location.href = 'index.html'; // Redirect to login after logout
+
+        // Hide the login form upon successful login
+        document.getElementById('loginForm').classList.remove('d-none');
+        document.getElementById('logoutBtn').classList.add('d-none'); // Show logout button
+        
     } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
     }
