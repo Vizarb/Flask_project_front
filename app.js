@@ -384,6 +384,7 @@ document.getElementById('createLoanForm').addEventListener('submit', async (e) =
     }
 });
 
+// get books
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded and parsed");
 
