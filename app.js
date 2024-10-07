@@ -224,11 +224,13 @@ const handleFormSubmission = async (formId, endpoint, data) => {
 };
 
 // Function to toggle visibility based on login status
-const updateUI = () => {
+const updateUI = async () => {
     const loginForm = document.getElementById('loginForm');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    if (isLoggedIn()) {
+    const loggedIn = await isLoggedIn(); // Wait for the login status check
+
+    if (loggedIn) {
         loginForm.classList.add('d-none'); // Hide the login form
         logoutBtn.classList.remove('d-none'); // Show the logout button
     } else {
@@ -280,11 +282,13 @@ const isLoggedIn = async () => {
 };
 
 // Redirect to login if not logged in
-const redirectToLoginIfNotLoggedIn = () => {
-    if (!isLoggedIn()) {
+const redirectToLoginIfNotLoggedIn = async () => {
+    const loggedIn = await isLoggedIn(); // Wait for the login status check
+    if (!loggedIn) {
         window.location.href = 'index.html'; // Change to your login page URL
     }
 };
+
 
 // Logout function
 const logout = async () => {
@@ -489,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUI(); // Update the UI based on login status
     returnLoan();
     // Call this function only on the clerk page
-    if (window.location.pathname === '/clerk.html') {
+    if (window.location.pathname.endsWith('/clerk.html')) {
         redirectToLoginIfNotLoggedIn();
-    }
+    }    
 });
