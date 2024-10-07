@@ -242,10 +242,12 @@ const updateUI = async () => {
 
 
 // User registration
-handleFormSubmission('registerForm', 'register', () => ({
-    username: document.getElementById('registerUsername').value.trim(),
-    password: document.getElementById('registerPassword').value.trim(),
-}));
+const handleRegisterSubmission = () => {
+    handleFormSubmission('registerForm', 'register', () => ({
+        username: document.getElementById('registerUsername').value.trim(),
+        password: document.getElementById('registerPassword').value.trim(),
+    }));
+};
 
 
 // User login
@@ -319,29 +321,6 @@ handleFormSubmission('createBookForm', 'book', () => ({
     loan_time_type: document.getElementById('loanTimeType').value.trim(),
     category: document.getElementById('bookCategory').value.trim(),
 }));
-
-// Search book
-document.getElementById('searchBookForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('searchBookName').value.trim();
-    if (!name) {
-        displayMessage('Please provide a book name to search.');
-        return;
-    }
-
-    try {
-        const response = await apiCall('POST', 'book/search', { name });
-
-        // Check if the response is an array
-        if (!Array.isArray(response)) {
-            throw new Error('Invalid response format.');
-        }
-
-        displayPayload(response, formatBook, 'booksList');
-    } catch (error) {
-        displayMessage(error.message || 'An error occurred while searching for books.');
-    }
-});
 
 
 // Toggle book status
@@ -456,9 +435,34 @@ document.getElementById('getCustomersBtn').addEventListener('click', async () =>
         displayMessage(error);
     }
 });
+// Search book
+const searchBook = () => {
+    document.getElementById('searchBookForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('searchBookName').value.trim();
+        if (!name) {
+            displayMessage('Please provide a book name to search.');
+            return;
+        }
+
+        try {
+            const response = await apiCall('POST', 'book/search', { name });
+
+            // Check if the response is an array
+            if (!Array.isArray(response)) {
+                throw new Error('Invalid response format.');
+            }
+
+            displayPayload(response, formatBook, 'booksList');
+        } catch (error) {
+            displayMessage(error.message || 'An error occurred while searching for books.');
+        }
+    });
+};
+
 
 // Return loan
-function returnLoan() {
+const returnLoan = () => {
     document.getElementById('returnLoanForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const loanId = document.getElementById('returnLoanId').value.trim();
@@ -475,7 +479,8 @@ function returnLoan() {
             displayMessage(error);
         }
     });
-}
+};
+
 
 // Initialize Bootstrap toasts on page load
 const toastWrap = () => {
@@ -487,13 +492,20 @@ const toastWrap = () => {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Call functions on page load
-    toastWrap(); // Initialize Bootstrap toasts on page load
-    updateUI(); // Update the UI based on login status
-    returnLoan();
-    // Call this function only on the clerk page
-    if (window.location.pathname.endsWith('/clerk.html')) {
-        redirectToLoginIfNotLoggedIn();
-    }    
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        toastWrap(); // Initialize Bootstrap toasts
+        await updateUI(); // Update UI based on login status
+        returnLoan(); // Handle loan returns
+        searchBook(); // Initialize book search
+        handleRegisterSubmission(); // Handle registration submission
+        
+        // Only redirect if on clerk page
+        if (window.location.pathname.endsWith('/clerk.html')) {
+            await redirectToLoginIfNotLoggedIn();
+        }
+    } catch (error) {
+        console.error('Error during DOMContentLoaded:', error);
+        displayMessage('An error occurred while loading the page.'); // Display a user-friendly message
+    }
 });
