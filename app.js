@@ -357,23 +357,16 @@ document.getElementById('createLoanForm').addEventListener('submit', async (e) =
     }
 });
 
-// get books
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded and parsed");
-
-    document.getElementById('getBooksBtn').addEventListener('click', async () => {
-        console.log("Get Books button clicked");
-        const bookType = document.getElementById('bookTypeSelect').value;
-        try {
-            const response = await apiCall('GET', `books?status=${bookType}`);
-            displayPayload(response, formatBook, 'booksList');
-        } catch (error) {
-            displayMessage(error);
-        }
-    });
+// Get all books based on selected type
+document.getElementById('getBooksBtn').addEventListener('click', async () => {
+    const bookType = document.getElementById('bookTypeSelect').value;
+    try {
+        const response = await apiCall('GET', `books?status=${bookType}`);
+        displayPayload(response, formatBook, 'booksList');
+    } catch (error) {
+        displayMessage(error);
+    }
 });
-
-
 
 // Get all loans based on selected type
 document.getElementById('getLoansBtn').addEventListener('click', async () => {
@@ -433,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUI(); // Update the UI based on login status
     returnLoan();
     // Call this function only on the clerk page
-    if (window.location.pathname.includes('clerk.html')) {
+    if (window.location.pathname === '/clerk.html') {
         redirectToLoginIfNotLoggedIn();
     }
 });

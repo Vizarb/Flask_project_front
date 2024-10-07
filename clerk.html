@@ -24,7 +24,8 @@
         .section-title {
             margin-top: 30px;
             margin-bottom: 20px;
-            color: #007bff; /* Bootstrap primary color */
+            color: #007bff;
+            /* Bootstrap primary color */
         }
     </style>
 </head>
@@ -48,19 +49,21 @@
                     </li>
                 </ul>
                 <div class="d-flex">
+                    <!-- Login Form -->
                     <form id="loginForm" class="d-none">
                         <input type="text" id="loginUsername" class="form-control me-2" placeholder="Username" required>
-                        <input type="password" id="loginPassword" class="form-control me-2" placeholder="Password" required>
+                        <input type="password" id="loginPassword" class="form-control me-2" placeholder="Password"
+                            required>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
+                    <!-- Logout Button -->
                     <button id="logoutBtn" class="btn btn-secondary">Logout</button>
                 </div>
             </div>
         </div>
     </nav>
-
     <!-- Loading Indicator -->
-    <div id="loadingIndicator" class="loading-indicator">
+    <div id="loadingIndicator" class="loading-indicator" style="display: none;">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
@@ -69,8 +72,8 @@
     <div class="container my-5">
         <h1 class="text-center mb-4">Clerk Dashboard</h1>
 
-        <!-- Manage Books -->
-        <div class="card mb-4">
+        <!-- User Operations -->
+        <div class="card">
             <div class="card-body">
                 <h2 class="section-title">Manage Books</h2>
                 <label for="bookTypeSelect">Select Book Type:</label>
@@ -232,23 +235,15 @@
         </div>
     </div>
 
-        <!-- Toggle Book Status -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="section-title">Toggle Book Status</h2>
-                <label for="toggleBookId">Book ID:</label>
-                <input type="number" class="form-control mb-3" id="toggleBookId" required>
-                <button id="toggleBookStatusBtn" class="btn btn-warning">Toggle Status</button>
+    <!-- Toast Notifications -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-        </div>
-
-        <!-- Toggle Customer Status -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2 class="section-title">Toggle Customer Status</h2>
-                <label for="toggleCustomerId">Customer ID:</label>
-                <input type="number" class="form-control mb-3" id="toggleCustomerId" required>
-                <button id="toggleCustomerStatusBtn" class="btn btn-warning">Toggle Status</button>
+            <div class="toast-body" id="toastBody">
+                <!-- Message will be displayed here -->
             </div>
         </div>
     </div>
@@ -272,57 +267,8 @@
         document.getElementById('registerCustomerForm').addEventListener('submit', registerCustomer);
         document.getElementById('getLoansBtn').addEventListener('click', getLoans);
         document.getElementById('createLoanForm').addEventListener('submit', createLoan);
-        document.getElementById('logoutBtn').addEventListener('click', logout);
+        document.getElementById('logoutBtn').addEventListener('click', logout); -->
 
-        function getBooks() {
-            // Implement the logic to fetch and display books
-        }
-
-        function createBook(event) {
-            event.preventDefault();
-            // Implement the logic to create a new book
-            // Use the input values from the createBookForm
-        }
-
-        function getCustomers() {
-            // Implement the logic to fetch and display customers
-        }
-
-        function registerCustomer(event) {
-            event.preventDefault();
-            // Implement the logic to register a new customer
-            // Use the input values from the registerCustomerForm
-        }
-
-        function getLoans() {
-            // Implement the logic to fetch and display loans
-        }
-
-        function createLoan(event) {
-            event.preventDefault();
-            // Implement the logic to create a new loan
-            // Use the input values from the createLoanForm
-        }
-
-        function logout() {
-            // Implement the logic to log out
-        }
-
-        function showLoading() {
-            document.getElementById('loadingIndicator').style.display = 'block';
-        }
-
-        function hideLoading() {
-            document.getElementById('loadingIndicator').style.display = 'none';
-        }
-
-        function showToast(message) {
-            const toastBody = document.getElementById('toastBody');
-            toastBody.innerText = message;
-            const toast = new bootstrap.Toast(document.getElementById('messageToast'));
-            toast.show();
-        }
-    </script> -->
 </body>
 
 </html>
