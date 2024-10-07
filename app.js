@@ -276,9 +276,9 @@ const isLoggedIn = async () => {
     }
 
     // Attempt to refresh the token if no access token
-    // const refreshSuccess = await refreshAccessToken();
-    // console.log("Refresh Token Success:", refreshSuccess); // Log the result of the refresh attempt
-    // return refreshSuccess; // Returns true if refresh was successful, otherwise false
+    const refreshSuccess = await refreshAccessToken();
+    console.log("Refresh Token Success:", refreshSuccess); // Log the result of the refresh attempt
+    return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
 
 // Redirect to login if not logged in
