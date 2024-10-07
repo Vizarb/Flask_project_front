@@ -1,4 +1,5 @@
 const apiUrl = 'https://flask-project-a035.onrender.com'; // Replace with your API URL
+let isRefreshing = false;
 
 // should add if needed
 // const validateFormData = (data) => {
@@ -36,10 +37,13 @@ const apiUrl = 'https://flask-project-a035.onrender.com'; // Replace with your A
 // };
 
 
-// Function to store token in local storage
+// Function to store access token in local storage
 const storeToken = (token) => localStorage.setItem('jwtToken', token);
 
-// Function to get token from local storage
+// Function to store refresh token in local storage
+const storeRefreshToken = (token) => localStorage.setItem('refreshToken', token);
+
+// Function to get access token from local storage
 const getToken = () => localStorage.getItem('jwtToken');
 
 // Function to set token in axios headers
@@ -47,6 +51,8 @@ const setAuthHeader = () => {
     const token = getToken();
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+        delete axios.defaults.headers.common['Authorization']; // Remove header if no token
     }
 };
 
@@ -56,6 +62,9 @@ const clearToken = () => {
     delete axios.defaults.headers.common['Authorization'];
 };
 
+// Function to clear refresh token
+const clearRefreshToken = () => localStorage.removeItem('refreshToken');
+
 
 // need to implement before prod
 // const setupEventListeners = () => {
@@ -63,9 +72,26 @@ const clearToken = () => {
     
 // };
 
-// Set the token header when the app loads
-setAuthHeader();
+// Call setAuthHeader once at the top of your script
+setAuthHeader(); // This sets the header for all subsequent requests
 
+// Function to refresh the access token
+const refreshAccessToken = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+        try {
+            const response = await apiCall('POST', 'refresh', { refresh_token: refreshToken });
+            storeToken(response.access_token); // Update the access token
+            setAuthHeader(); // Update the Authorization header
+            return true; // Refresh successful
+        } catch (error) {
+            clearToken();
+            clearRefreshToken();
+            return false; // Refresh failed
+        }
+    }
+    return false; // No refresh token available
+};
 // Display loading indicator
 const showLoading = () => {
     document.getElementById('loadingIndicator').style.display = 'block';
@@ -86,24 +112,51 @@ const displayMessage = (msg) => {
     messageToast.show(); // Show the toast
 };
 
-// Generic API call function
 const apiCall = async (method, endpoint, data = null) => {
     try {
         showLoading();
+
         const config = {
             method,
             url: `${apiUrl}/${endpoint}`,
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+            },
             data: data ? JSON.stringify(data) : null,
         };
+
         const response = await axios(config);
-        return response.data; // Return the response data
+        return response.data;
     } catch (error) {
+        if (error.response?.status === 401) {
+            // Check if a refresh is already in progress
+            if (!isRefreshing) {
+                isRefreshing = true; // Set flag to indicate refresh in progress
+                const refreshSuccess = await refreshAccessToken();
+                isRefreshing = false; // Reset the flag after refresh attempt
+
+                if (refreshSuccess) {
+                    // Retry the original request
+                    const retryResponse = await axios({
+                        ...config,
+                        headers: {
+                            ...config.headers,
+                            'Authorization': `Bearer ${getToken()}`,
+                        },
+                    });
+                    return retryResponse.data;
+                } else {
+                    displayMessage('Session expired. Please log in again.');
+                    window.location.href = 'index.html';
+                }
+            }
+        }
         throw error.response?.data?.msg || 'An error occurred.';
     } finally {
         hideLoading();
     }
 };
+
 
 // Function to check if a user exists
 const checkUserExists = async (username) => {
@@ -202,7 +255,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     try {
         const response = await apiCall('POST', 'login', { username, password });
-        storeToken(response.access_token); // Store the token
+        storeToken(response.access_token); // Store the access token
+        storeRefreshToken(response.refresh_token); // Store the refresh token
         setAuthHeader(); // Set the authorization header
         displayMessage(response.msg || 'Login successful.');
         updateUI(); // Update the UI after successful login
@@ -212,9 +266,18 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 });
 
 
-// Function to check if the user is logged in
-const isLoggedIn = () => {
-    return !!getToken();
+// Function to check if a user is logged in and refresh the token if necessary
+const isLoggedIn = async () => {
+    const token = getToken();
+
+    // If there is a valid access token, the user is logged in
+    if (token) {
+        return true;
+    }
+
+    // Attempt to refresh the token if no access token
+    const refreshSuccess = await refreshAccessToken();
+    return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
 
 // Redirect to login if not logged in
@@ -228,7 +291,8 @@ const redirectToLoginIfNotLoggedIn = () => {
 const logout = async () => {
     try {
         await apiCall('POST', 'logout');
-        clearToken(); // Clear the token
+        clearToken(); // Clear the access token
+        clearRefreshToken(); // Clear the refresh token
         displayMessage('Logged out successfully.');
         updateUI(); // Update the UI after logout
         window.location.href = 'index.html'; // Redirect to login after logout
