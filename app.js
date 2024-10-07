@@ -265,10 +265,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
-
 // Function to check if a user is logged in and refresh the token if necessary
 const isLoggedIn = async () => {
     const token = getToken();
+    console.log("Access Token:", token); // Log the access token
 
     // If there is a valid access token, the user is logged in
     if (token) {
@@ -277,6 +277,7 @@ const isLoggedIn = async () => {
 
     // Attempt to refresh the token if no access token
     const refreshSuccess = await refreshAccessToken();
+    console.log("Refresh Token Success:", refreshSuccess); // Log the result of the refresh attempt
     return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
 
