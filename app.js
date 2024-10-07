@@ -224,12 +224,11 @@ const handleFormSubmission = async (formId, endpoint, data) => {
 };
 
 // Function to toggle visibility based on login status
-const updateUI = async () => {
+const updateUI = () => {
     const loginForm = document.getElementById('loginForm');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    // Await the result of isLoggedIn to get the correct status
-    if (await isLoggedIn()) {
+    if (isLoggedIn()) {
         loginForm.classList.add('d-none'); // Hide the login form
         logoutBtn.classList.remove('d-none'); // Show the logout button
     } else {
@@ -237,7 +236,6 @@ const updateUI = async () => {
         logoutBtn.classList.add('d-none'); // Hide the logout button
     }
 };
-
 
 
 
