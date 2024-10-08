@@ -304,11 +304,17 @@ const isLoggedIn = async () => {
 };
 
 
-// Redirect to login if not logged in
-const redirectToLoginIfNotLoggedIn = async () => {
-    const loggedIn = await isLoggedIn(); // Wait for the login status check
+// Function to redirect to the login page
+const redirectToLogin = () => {
+    window.location.href = 'index.html'; // Change to your login page URL
+};
+
+
+// Check login status and redirect if necessary
+const checkLoginAndRedirect = async () => {
+    const loggedIn = await isLoggedIn();
     if (!loggedIn) {
-        window.location.href = 'index.html'; // Change to your login page URL
+        redirectToLogin();
     }
 };
 
@@ -521,9 +527,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchBook(); // Initialize book search
         handleRegisterSubmission(); // Handle registration submission
         
-        // Only redirect if on clerk page
+        // Only check login status if on clerk page
         if (window.location.pathname.endsWith('/clerk.html')) {
-            await redirectToLoginIfNotLoggedIn();
+            await checkLoginAndRedirect();
         }
     } catch (error) {
         console.error('Error during DOMContentLoaded:', error);
