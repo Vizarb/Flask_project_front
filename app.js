@@ -530,6 +530,7 @@ const toastWrap = () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        setAuthHeader();
         toastWrap(); // Initialize Bootstrap toasts
         await updateUI(); // Update UI based on login status
         returnLoan(); // Handle loan returns
