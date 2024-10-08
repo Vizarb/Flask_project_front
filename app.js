@@ -209,16 +209,29 @@ const formatCustomer = (customer) => `
 `;
 
 // Generic form submission handler
-const handleFormSubmission = async (formId, endpoint, data) => {
+const handleFormSubmission = (formId, endpoint, data) => {
     const form = document.getElementById(formId);
+    
+    // Check if the form exists
+    if (!form) {
+        console.error(`Form with ID "${formId}" not found.`);
+        return;
+    }
+
+    // Clear any existing event listeners to avoid duplicates
+    const existingListener = (event) => event.preventDefault();
+    form.removeEventListener('submit', existingListener); // Remove previous listener, if any
     form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent the default form submission
         try {
-            showLoading();
-            const response = await apiCall('POST', endpoint, data());
-            displayMessage(response.msg || 'Operation successful.');
+            showLoading(); // Show loading indicator
+            const formData = data(); // Call the data function to get current form data
+            const response = await apiCall('POST', endpoint, formData); // Make the API call
+            displayMessage(response.msg || 'Operation successful.'); // Display success message
         } catch (error) {
-            displayMessage(error);
+            displayMessage(error); // Handle error and display message
+        } finally {
+            hideLoading(); // Ensure loading indicator is hidden
         }
     });
 };
