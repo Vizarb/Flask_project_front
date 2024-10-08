@@ -72,9 +72,6 @@ const clearRefreshToken = () => localStorage.removeItem('refreshToken');
     
 // };
 
-// Call setAuthHeader once at the top of your script
-setAuthHeader(); // This sets the header for all subsequent requests
-
 // Function to refresh the access token
 const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -241,16 +238,19 @@ const updateUI = async () => {
     const loginForm = document.getElementById('loginForm');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    const loggedIn = await isLoggedIn(); // Wait for the login status check
+    const loggedIn = await isLoggedIn(); // Check login status
+
+    setAuthHeader(); // Ensure headers are set based on current login status
 
     if (loggedIn) {
-        loginForm.classList.add('d-none'); // Hide the login form
-        logoutBtn.classList.remove('d-none'); // Show the logout button
+        loginForm.classList.add('d-none'); // Hide login form
+        logoutBtn.classList.remove('d-none'); // Show logout button
     } else {
-        loginForm.classList.remove('d-none'); // Show the login form
-        logoutBtn.classList.add('d-none'); // Hide the logout button
+        loginForm.classList.remove('d-none'); // Show login form
+        logoutBtn.classList.add('d-none'); // Hide logout button
     }
 };
+
 
 
 
@@ -328,6 +328,7 @@ const logout = async () => {
         await apiCall('POST', 'logout');
         clearToken(); // Clear the access token
         clearRefreshToken(); // Clear the refresh token
+        setAuthHeader(); // Update headers after logout
         displayMessage('Logged out successfully.');
         updateUI(); // Update the UI after logout
         window.location.href = 'index.html'; // Redirect to login after logout
@@ -335,6 +336,7 @@ const logout = async () => {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
     }
 };
+
 
 
 
