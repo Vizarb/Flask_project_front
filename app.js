@@ -275,13 +275,34 @@ const isLoggedIn = async () => {
 
     // If there is a valid access token, the user is logged in
     if (token) {
-        return true;
+        try {
+            // Make a request to the check_login endpoint
+            const response = await fetch('/check_login', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Include the token in the headers
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            // Check if the response is OK (status 200)
+            if (response.ok) {
+                return true; // User is logged in
+            } else {
+                // Handle the case where the user is not logged in
+                return false;
+            }
+        } catch (error) {
+            console.error('Error checking login status:', error);
+            return false; // Treat any error as not logged in
+        }
     }
 
     // Attempt to refresh the token if no access token
     const refreshSuccess = await refreshAccessToken();
     return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
+
 
 // Redirect to login if not logged in
 const redirectToLoginIfNotLoggedIn = async () => {
