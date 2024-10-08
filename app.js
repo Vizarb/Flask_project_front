@@ -289,22 +289,11 @@ const isLoggedIn = async () => {
     // If there is a valid access token, the user is logged in
     if (token) {
         try {
-            // Make a request to the check_login endpoint
-            const response = await fetch('/check_login', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Include the token in the headers
-                    'Content-Type': 'application/json'
-                }
-            });
+            // Make a request to the check_login endpoint using apiCall
+            const response = await apiCall('POST', 'check_login', null);
 
-            // Check if the response is OK (status 200)
-            if (response.ok) {
-                return true; // User is logged in
-            } else {
-                // Handle the case where the user is not logged in
-                return false;
-            }
+            // Check if the response indicates that the user is logged in
+            return response ? true : false; // User is logged in
         } catch (error) {
             console.error('Error checking login status:', error);
             return false; // Treat any error as not logged in
@@ -315,6 +304,7 @@ const isLoggedIn = async () => {
     const refreshSuccess = await refreshAccessToken();
     return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
+
 
 
 // Function to redirect to the login page
