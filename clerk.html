@@ -47,10 +47,11 @@
                 <div class="d-flex">
                     <form id="loginForm">
                         <input type="text" id="loginUsername" class="form-control me-2" placeholder="Username" required>
-                        <input type="password" id="loginPassword" class="form-control me-2" placeholder="Password" required>
+                        <input type="password" id="loginPassword" class="form-control me-2" placeholder="Password"
+                            required>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
-                    <button id="logoutBtn" class="btn btn-secondary d-none">Logout</button>
+                    <button id="logoutBtn" class="btn btn-secondary d-none" onclick="redirectToLogin()">Logout</button>
                 </div>
             </div>
         </div>
@@ -63,7 +64,8 @@
     <div class="container my-5">
         <h1 class="text-center mb-4">Library System</h1>
 
-        <div id="toastContainer" aria-live="polite" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <div id="toastContainer" aria-live="polite" aria-atomic="true"
+            style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
             <div class="toast" id="messageToast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="me-auto">Message</strong>
@@ -79,7 +81,8 @@
                 <h2 class="section-title">User Registration</h2>
                 <form id="registerForm" onsubmit="handleRegister(event)">
                     <input type="text" class="form-control mb-3" id="registerUsername" placeholder="Username" required>
-                    <input type="password" class="form-control mb-3" id="registerPassword" placeholder="Password" required>
+                    <input type="password" class="form-control mb-3" id="registerPassword" placeholder="Password"
+                        required>
                     <button type="submit" class="btn btn-primary">Register</button>
                 </form>
             </div>
@@ -92,7 +95,8 @@
                 <form id="createBookForm" onsubmit="handleCreateBook(event)">
                     <input type="text" class="form-control mb-3" id="bookName" placeholder="Book Name" required>
                     <input type="text" class="form-control mb-3" id="bookAuthor" placeholder="Author" required>
-                    <input type="number" class="form-control mb-3" id="yearPublished" placeholder="Year Published" required>
+                    <input type="number" class="form-control mb-3" id="yearPublished" placeholder="Year Published"
+                        required>
                     <select class="form-control mb-3" id="loanTimeType" required>
                         <option value="TEN_DAYS">10 Days</option>
                         <option value="FIVE_DAYS">5 Days</option>
@@ -147,7 +151,8 @@
                 <h2 class="section-title">Register Customer</h2>
                 <form id="registerCustomerForm" onsubmit="handleRegisterCustomer(event)">
                     <input type="text" class="form-control mb-3" id="customerName" placeholder="Full Name" required>
-                    <input type="email" class="form-control mb-3" id="customerEmail" placeholder="Customer Email" required>
+                    <input type="email" class="form-control mb-3" id="customerEmail" placeholder="Customer Email"
+                        required>
                     <select class="form-control mb-3" id="customerCity" required>
                         <option value="" disabled selected>Select City</option>
                         <option value="TEL_AVIV">Tel Aviv</option>
@@ -163,6 +168,20 @@
                     </select>
                     <input type="number" class="form-control mb-3" id="customerAge" placeholder="Age" required>
                     <button type="submit" class="btn btn-primary">Register Customer</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Search Customer Form -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title">Search Customer</h2>
+                <form id="searchCustomerForm" class="mb-4">
+                    <input type="text" class="form-control mb-3" id="searchCustomerName" placeholder="Customer Name"
+                        required>
+                    <input type="email" class="form-control mb-3" id="searchCustomerEmail"
+                        placeholder="Customer Email (optional)">
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
         </div>
@@ -188,8 +207,10 @@
                 <h2 class="section-title">Create Loan</h2>
                 <form id="createLoanForm" onsubmit="handleCreateLoan(event)">
                     <input type="text" class="form-control mb-3" id="loanBookName" placeholder="Book Name" required>
-                    <input type="text" class="form-control mb-3" id="loanCustomerFullName" placeholder="Customer Full Name" required>
-                    <input type="email" class="form-control mb-3" id="loanCustomerEmail" placeholder="Customer Email" required>
+                    <input type="text" class="form-control mb-3" id="loanCustomerFullName"
+                        placeholder="Customer Full Name" required>
+                    <input type="email" class="form-control mb-3" id="loanCustomerEmail" placeholder="Customer Email"
+                        required>
                     <select class="form-control mb-3" id="loanDuration" required>
                         <option value="" disabled selected>Select Loan Duration</option>
                         <option value="TEN_DAYS">10 Days</option>
