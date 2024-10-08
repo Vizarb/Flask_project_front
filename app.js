@@ -309,7 +309,7 @@ const isLoggedIn = async () => {
 
 // Function to redirect to the login page
 const redirectToLogin = () => {
-    window.location.href = 'index.html'; // Change to your login page URL
+    window.location.href = "https://vizarb.github.io/Flask_project_front/index.html"; // Change to your login page URL
 };
 
 
