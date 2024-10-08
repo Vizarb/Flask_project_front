@@ -382,28 +382,32 @@ handleFormSubmission('toggleCustomerStatusForm', 'customer/status', () => ({
 }));
 
 // Search customer
-document.getElementById('searchCustomerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const fullName = document.getElementById('searchCustomerName').value.trim();
-    const email = document.getElementById('searchCustomerEmail').value.trim() || null;
+const searchForm = document.getElementById('searchCustomerForm');
+if (searchForm) {
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('searchCustomerName').value.trim();
+        const email = document.getElementById('searchCustomerEmail').value.trim() || null;
 
-    if (!fullName && !email) {
-        displayMessage('Please provide a customer name or email to search.');
-        return;
-    }
-
-    try {
-        const response = await apiCall('POST', 'customer/search', { email: email, full_name: fullName });
-        // Check if the response is an array
-        if (!Array.isArray(response)) {
-            throw new Error('Invalid response format.');
+        if (!fullName && !email) {
+            displayMessage('Please provide a customer name or email to search.');
+            return;
         }
 
-        displayPayload(response, formatCustomer, 'customersList');
-    } catch (error) {
-        displayMessage(error.message || 'An error occurred while searching for customers.');
-    }
-});
+        try {
+            const response = await apiCall('POST', 'customer/search', { email: email, full_name: fullName });
+            // Check if the response is an array
+            if (!Array.isArray(response)) {
+                throw new Error('Invalid response format.');
+            }
+
+            displayPayload(response, formatCustomer, 'customersList');
+        } catch (error) {
+            displayMessage(error.message || 'An error occurred while searching for customers.');
+        }
+    });
+}
+
 
 // Create loan
 document.getElementById('createLoanForm').addEventListener('submit', async (e) => {
