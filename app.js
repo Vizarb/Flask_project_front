@@ -144,7 +144,6 @@ const apiCall = async (method, endpoint, data = null) => {
                     return retryResponse.data;
                 } else {
                     displayMessage('Session expired. Please log in again.');
-                    window.location.href = 'index.html';
                 }
             }
         }
@@ -331,8 +330,8 @@ const logout = async () => {
         setAuthHeader(); // Update headers after logout
         displayMessage('Logged out successfully.');
         updateUI(); // Update the UI after logout
-        window.location.href = 'index.html'; // Redirect to login after logout
-    } catch (error) {
+        redirectToLogin();
+        } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
     }
 };
@@ -536,7 +535,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchBook(); // Initialize book search
         handleRegisterSubmission(); // Handle registration submission
         // Only check login status if on clerk page
-        if (window.location.href = "https://vizarb.github.io/Flask_project_front/clerk.html") {
+        if (window.location.href === "https://vizarb.github.io/Flask_project_front/clerk.html") {
             console.log("the link is clerk");
             
             await checkLoginAndRedirect();
