@@ -276,7 +276,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         storeRefreshToken(response.refresh_token); // Store the refresh token
         setAuthHeader(); // Set the authorization header
         displayMessage(response.msg || 'Login successful.');
-        await updateUI(); // Update the UI after successful login
+        updateUI(); // Update the UI after successful login
     } catch (error) {
         displayMessage(error);
     }
@@ -330,7 +330,7 @@ const logout = async () => {
         clearRefreshToken(); // Clear the refresh token
         setAuthHeader(); // Update headers after logout
         displayMessage('Logged out successfully.');
-        await updateUI(); // Update the UI after logout
+        updateUI(); // Update the UI after logout
         window.location.href = 'index.html'; // Redirect to login after logout
     } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
