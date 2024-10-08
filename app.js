@@ -276,7 +276,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         storeRefreshToken(response.refresh_token); // Store the refresh token
         setAuthHeader(); // Set the authorization header
         displayMessage(response.msg || 'Login successful.');
-        updateUI(); // Update the UI after successful login
+        await updateUI(); // Update the UI after successful login
     } catch (error) {
         displayMessage(error);
     }
@@ -330,7 +330,7 @@ const logout = async () => {
         clearRefreshToken(); // Clear the refresh token
         setAuthHeader(); // Update headers after logout
         displayMessage('Logged out successfully.');
-        updateUI(); // Update the UI after logout
+        await updateUI(); // Update the UI after logout
         window.location.href = 'index.html'; // Redirect to login after logout
     } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
@@ -530,15 +530,15 @@ const toastWrap = () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        setAuthHeader();
         toastWrap(); // Initialize Bootstrap toasts
         await updateUI(); // Update UI based on login status
         returnLoan(); // Handle loan returns
         searchBook(); // Initialize book search
         handleRegisterSubmission(); // Handle registration submission
-        
         // Only check login status if on clerk page
-        if (window.location.pathname.endsWith('/clerk.html')) {
+        if (window.location.href = "https://vizarb.github.io/Flask_project_front/clerk.html") {
+            console.log("the link is clerk");
+            
             await checkLoginAndRedirect();
         }
     } catch (error) {
