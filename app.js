@@ -615,10 +615,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         setAuthHeader();
         toastWrap(); // Initialize Bootstrap toasts
-        await updateUI(); // Update UI based on login status
-        handleRegisterSubmission(); // Handle registration submission
-        // Attach all event listeners
-        setupEventListeners();
+        await updateUI(); // Update UI based on login status    
+        setupEventListeners();// Attach all event listeners
 
 
         // Check login status only if on clerk.html
