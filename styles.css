@@ -15,3 +15,35 @@
             color: #007bff;
             /* Bootstrap primary color */
         }
+
+        /* about */
+        footer {
+            background-color: #f8f9fa;
+            /* Light background for modern look */
+            color: #343a40;
+            /* Dark text for contrast */
+        }
+
+        footer a {
+            color: #007bff;
+            /* Bootstrap primary color for links */
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+            /* Underline on hover for links */
+        }
+
+        footer h5 {
+            margin-bottom: 1rem;
+            /* Spacing below the heading */
+            font-weight: bold;
+            /* Bold heading */
+        }
+
+        footer h6 {
+            margin-top: 1rem;
+            /* Spacing above the subheading */
+            font-weight: bold;
+            /* Bold subheading */
+        }
