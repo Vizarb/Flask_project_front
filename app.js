@@ -340,17 +340,22 @@ const checkLoginAndRedirect = async () => {
 // Logout function
 const logout = async () => {
     try {
-        await apiCall('POST', 'logout');
+        await apiCall('POST', 'logout'); // Notify server of logout
         clearToken(); // Clear the access token
         clearRefreshToken(); // Clear the refresh token
         setAuthHeader(); // Update headers after logout
-        displayMessage('Logged out successfully.');
-        await updateUI(); // Update the UI after logout
-        redirectToLogin();
-        } catch (error) {
-        displayMessage(error.response?.data?.msg || 'Logout failed.');
+
+        displayMessage('Logged out successfully.'); // Feedback to the user
+        
+        updateUI(); // Update the UI after logout
+
+        redirectToLogin(); // Redirect to login page
+    } catch (error) {
+        console.error("Logout error:", error); // Log the error for debugging
+        displayMessage(error.response?.data?.msg || 'Logout failed.'); // Inform the user
     }
 };
+
 
 
 
