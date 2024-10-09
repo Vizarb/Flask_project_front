@@ -70,6 +70,34 @@ const clearToken = () => {
 const clearRefreshToken = () => localStorage.removeItem('refreshToken');
 
 
+// Generic form submission handler
+const handleFormSubmission = (formId, endpoint, data) => {
+    const form = document.getElementById(formId);
+    
+    // Check if the form exists
+    if (!form) {
+        console.error(`Form with ID "${formId}" not found.`);
+        return;
+    }
+
+    // Clear any existing event listeners to avoid duplicates
+    const existingListener = (event) => event.preventDefault();
+    form.removeEventListener('submit', existingListener); // Remove previous listener, if any
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent the default form submission
+        try {
+            showLoading(); // Show loading indicator
+            const formData = data(); // Call the data function to get current form data
+            const response = await apiCall('POST', endpoint, formData); // Make the API call
+            displayMessage(response.msg || 'Operation successful.'); // Display success message
+        } catch (error) {
+            displayMessage(error); // Handle error and display message
+        } finally {
+            hideLoading(); // Ensure loading indicator is hidden
+        }
+    });
+};
+
 // Function to set up all event listeners
 const setupEventListeners = () => {
     const logoutBtn = document.getElementById('logoutBtn');
@@ -138,6 +166,49 @@ const setupEventListeners = () => {
                 displayMessage(error.message || 'An error occurred while searching for books.');
             }
         });
+    }
+
+    // User registration
+    if (document.getElementById('registerForm')) {
+        handleFormSubmission('registerForm', 'register', () => ({
+            username: document.getElementById('registerUsername').value.trim(),
+            password: document.getElementById('registerPassword').value.trim(),
+        }));
+    }
+
+    // Create book
+    if (document.getElementById('createBookForm')) {
+        handleFormSubmission('createBookForm', 'book', () => ({
+            name: document.getElementById('bookName').value.trim(),
+            author: document.getElementById('bookAuthor').value.trim(),
+            year_published: document.getElementById('yearPublished').value.trim(),
+            loan_time_type: document.getElementById('loanTimeType').value.trim(),
+            category: document.getElementById('bookCategory').value.trim(),
+        }));
+    }
+
+    // Toggle book status
+    if (document.getElementById('toggleBookStatusForm')) {
+        handleFormSubmission('toggleBookStatusForm', 'book/status', () => ({
+            name: document.getElementById('toggleBookName').value.trim(),
+        }));
+    }
+
+    // Register customer
+    if (document.getElementById('registerCustomerForm')) {
+        handleFormSubmission('registerCustomerForm', 'customer', () => ({
+            full_name: document.getElementById('customerName').value.trim(),
+            email: document.getElementById('customerEmail').value.trim(),
+            city: document.getElementById('customerCity').value.trim(),
+            age: parseInt(document.getElementById('customerAge').value.trim()),
+        }));
+    }
+
+    // Toggle customer status
+    if (document.getElementById('toggleCustomerStatusForm')) {
+        handleFormSubmission('toggleCustomerStatusForm', 'customer/status', () => ({
+            email: document.getElementById('toggleCustomerEmail').value.trim(),
+        }));
     }
 };
 
@@ -282,33 +353,6 @@ const formatCustomer = (customer) => `
 `;
 
 
-// Generic form submission handler
-const handleFormSubmission = (formId, endpoint, data) => {
-    const form = document.getElementById(formId);
-    
-    // Check if the form exists
-    if (!form) {
-        console.error(`Form with ID "${formId}" not found.`);
-        return;
-    }
-
-    // Clear any existing event listeners to avoid duplicates
-    const existingListener = (event) => event.preventDefault();
-    form.removeEventListener('submit', existingListener); // Remove previous listener, if any
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Prevent the default form submission
-        try {
-            showLoading(); // Show loading indicator
-            const formData = data(); // Call the data function to get current form data
-            const response = await apiCall('POST', endpoint, formData); // Make the API call
-            displayMessage(response.msg || 'Operation successful.'); // Display success message
-        } catch (error) {
-            displayMessage(error); // Handle error and display message
-        } finally {
-            hideLoading(); // Ensure loading indicator is hidden
-        }
-    });
-};
 
 // Function to toggle visibility based on login status
 const updateUI = async () => {
@@ -329,16 +373,6 @@ const updateUI = async () => {
     }
 };
 
-
-
-
-// User registration
-const handleRegisterSubmission = () => {
-    handleFormSubmission('registerForm', 'register', () => ({
-        username: document.getElementById('registerUsername').value.trim(),
-        password: document.getElementById('registerPassword').value.trim(),
-    }));
-};
 
 
 // User login
@@ -438,33 +472,7 @@ document.getElementById('logoutBtn').addEventListener('click', logout);
 
 
 
-// Create book
-handleFormSubmission('createBookForm', 'book', () => ({
-    name: document.getElementById('bookName').value.trim(),
-    author: document.getElementById('bookAuthor').value.trim(),
-    year_published: document.getElementById('yearPublished').value.trim(),
-    loan_time_type: document.getElementById('loanTimeType').value.trim(),
-    category: document.getElementById('bookCategory').value.trim(),
-}));
 
-
-// Toggle book status
-handleFormSubmission('toggleBookStatusForm', 'book/status', () => ({
-    name: document.getElementById('toggleBookName').value.trim(),
-}));
-
-// Register customer
-handleFormSubmission('registerCustomerForm', 'customer', () => ({
-    full_name: document.getElementById('customerName').value.trim(),
-    email: document.getElementById('customerEmail').value.trim(),
-    city: document.getElementById('customerCity').value.trim(),
-    age: parseInt(document.getElementById('customerAge').value.trim()),
-}));
-
-// Toggle customer status
-handleFormSubmission('toggleCustomerStatusForm', 'customer/status', () => ({
-    email: document.getElementById('toggleCustomerEmail').value.trim(),
-}));
 
 // Search customer
 const searchForm = document.getElementById('searchCustomerForm');
