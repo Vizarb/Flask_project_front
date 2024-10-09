@@ -1,7 +1,8 @@
 const apiUrl = 'https://flask-project-a035.onrender.com'; // Replace with your API URL
 let isRefreshing = false;
 
-// should add if needed
+// should add
+
 // const validateFormData = (data) => {
 //     // Check for required fields
 //     const requiredFields = ['username', 'password', 'email', 'full_name']; // Add required fields as necessary
