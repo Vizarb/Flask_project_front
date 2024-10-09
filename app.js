@@ -46,7 +46,6 @@ const storeRefreshToken = (token) => localStorage.setItem('refreshToken', token)
 // Function to get access token from local storage
 const getToken = () => {
     const token = localStorage.getItem('jwtToken');
-    console.log("Retrieved token:", token); // Log the retrieved token
     return token;
 };
 
@@ -62,9 +61,7 @@ const setAuthHeader = () => {
 
 // Function to clear the token from local storage and axios headers
 const clearToken = () => {
-    localStorage.removeItem('jwtToken');
-    console.log("cleared access token");
-    
+    localStorage.removeItem('jwtToken');    
     delete axios.defaults.headers.common['Authorization'];
 };
 
@@ -362,15 +359,12 @@ const isLoggedIn = async () => {
     // If there is a valid access token, the user is logged in
     if (token) {
         try {
-            console.log("Token found, checking login status...");
             const response = await apiCall('POST', 'check_login', null, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            console.log('Login check response:', response);
             return response ? true : false; // User is logged in
         } catch (error) {
-            console.log("Got an error in isLoggedIn");
             console.error('Error checking login status:', error);
             return false; // Treat any error (including expired token) as not logged in
         }
@@ -379,12 +373,10 @@ const isLoggedIn = async () => {
     // If no access token, check for refresh token
     const refreshToken = localStorage.getItem('refreshToken');
     if (!refreshToken) {
-        console.log("No refresh token found. User is not logged in.");
         return false; // No tokens means user is not logged in
     }
 
     // Attempt to refresh the token if no access token
-    console.log("No access token found, attempting to refresh...");
     const refreshSuccess = await refreshAccessToken();
     return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
@@ -414,9 +406,7 @@ const checkLoginAndRedirect = async () => {
 // Logout function
 const logout = async () => {
     try {
-        console.log("Logging out...");
         const response = await apiCall('POST', 'logout'); // Notify server of logout
-        console.log("Logout API called", response);
         clearToken(); // Clear the access token
         clearRefreshToken(); // Clear the refresh token
         setAuthHeader(); // Update headers after logout
@@ -632,7 +622,6 @@ const toastWrap = () => {
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log("DOM fully loaded and parsed");
     try {
         setAuthHeader();
         toastWrap(); // Initialize Bootstrap toasts
@@ -645,7 +634,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Check login status only if on clerk.html
         const currentPage = window.location.pathname.split('/').pop(); // Get the current page name
         if (currentPage === "clerk.html") {
-            console.log("the link is clerk");
             checkLoginAndRedirect();
         }
     } catch (error) {
