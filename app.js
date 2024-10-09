@@ -241,9 +241,10 @@ const updateUI = async () => {
     const loginForm = document.getElementById('loginForm');
     const logoutBtn = document.getElementById('logoutBtn');
 
+    setAuthHeader(); // Ensure headers are set based on current login status
+
     const loggedIn = await isLoggedIn(); // Check login status
 
-    setAuthHeader(); // Ensure headers are set based on current login status
 
     if (loggedIn) {
         loginForm.classList.add('d-none'); // Hide login form
