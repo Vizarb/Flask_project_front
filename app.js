@@ -63,6 +63,8 @@ const setAuthHeader = () => {
 // Function to clear the token from local storage and axios headers
 const clearToken = () => {
     localStorage.removeItem('jwtToken');
+    console.log("cleared access token");
+    
     delete axios.defaults.headers.common['Authorization'];
 };
 
