@@ -392,9 +392,11 @@ const isLoggedIn = async () => {
 
 
 
-// Function to redirect to the login page
-const redirectToLogin = () => {
-    window.location.href = "index.html"; // Redirects to the login page
+// Function to redirect to the login page with a delay
+const redirectToLogin = (delay = 1000) => { // Default delay of 1000ms (1 second)
+    setTimeout(() => {
+        window.location.href = "index.html"; // Redirects to the login page
+    }, delay);
 };
 
 // Check login status and redirect if necessary
