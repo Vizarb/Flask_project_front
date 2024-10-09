@@ -342,6 +342,7 @@ const checkLoginAndRedirect = async () => {
 // Logout function
 const logout = async () => {
     try {
+        console.log("Logging out...");
         await apiCall('POST', 'logout'); // Notify server of logout
         clearToken(); // Clear the access token
         clearRefreshToken(); // Clear the refresh token
@@ -351,7 +352,6 @@ const logout = async () => {
         
         updateUI(); // Update the UI after logout
 
-        redirectToLogin(); // Redirect to login page
     } catch (error) {
         console.error("Logout error:", error); // Log the error for debugging
         displayMessage(error.response?.data?.msg || 'Logout failed.'); // Inform the user
