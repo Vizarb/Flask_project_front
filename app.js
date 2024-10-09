@@ -72,11 +72,78 @@ const clearToken = () => {
 const clearRefreshToken = () => localStorage.removeItem('refreshToken');
 
 
-// need to implement before prod
-// const setupEventListeners = () => {
+// Function to set up all event listeners
+const setupEventListeners = () => {
+    const logoutBtn = document.getElementById('logoutBtn');
+    const getBooksBtn = document.getElementById('getBooksBtn');
+    const returnLoanForm = document.getElementById('returnLoanForm');
+    const searchBookForm = document.getElementById('searchBookForm');
 
-    
-// };
+    // Attach event listener for logout
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+    }
+
+    // Attach event listener for getting books
+    if (getBooksBtn) {
+        getBooksBtn.addEventListener('click', async () => {
+            const bookType = document.getElementById('bookTypeSelect').value;
+            try {
+                const response = await apiCall('GET', `books?status=${bookType}`);
+                displayPayload(response, formatBook, 'booksList');
+            } catch (error) {
+                displayMessage(error);
+            }
+        });
+    }
+
+    // Attach event listener for returning loans
+    if (returnLoanForm) {
+        returnLoanForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const loanId = document.getElementById('returnLoanId').value.trim();
+
+            if (!loanId) {
+                displayMessage('Loan ID is required to return a loan.');
+                return;
+            }
+
+            try {
+                const response = await apiCall('POST', `return/${loanId}`);
+                displayMessage(response.message || 'Loan returned successfully.');
+            } catch (error) {
+                displayMessage(error);
+            }
+        });
+    }
+
+    // Attach event listener for searching books
+    if (searchBookForm) {
+        searchBookForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('searchBookName').value.trim();
+            if (!name) {
+                displayMessage('Please provide a book name to search.');
+                return;
+            }
+
+            try {
+                const response = await apiCall('POST', 'book/search', { name });
+
+                // Check if the response is an array
+                if (!Array.isArray(response)) {
+                    throw new Error('Invalid response format.');
+                }
+
+                displayPayload(response, formatBook, 'booksList');
+            } catch (error) {
+                displayMessage(error.message || 'An error occurred while searching for books.');
+            }
+        });
+    }
+};
+
+
 
 // Function to refresh the access token
 const refreshAccessToken = async () => {
@@ -564,10 +631,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         setAuthHeader();
         toastWrap(); // Initialize Bootstrap toasts
         await updateUI(); // Update UI based on login status
-        setupGetBooksButton();
-        returnLoan(); // Handle loan returns
-        searchBook(); // Initialize book search
         handleRegisterSubmission(); // Handle registration submission
+        // Attach all event listeners
+        setupEventListeners();
+
+
         // Check login status only if on clerk.html
         const currentPage = window.location.pathname.split('/').pop(); // Get the current page name
         if (currentPage === "clerk.html") {
