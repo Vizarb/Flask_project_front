@@ -210,6 +210,47 @@ const setupEventListeners = () => {
             email: document.getElementById('toggleCustomerEmail').value.trim(),
         }));
     }
+
+    // Create loan
+    const createLoanForm = document.getElementById('createLoanForm');
+    if (createLoanForm) {
+        createLoanForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const bookName = document.getElementById('loanBookName').value.trim();
+            const customerFullName = document.getElementById('loanCustomerFullName').value.trim();
+            const customerEmail = document.getElementById('loanCustomerEmail').value.trim();
+            const duration = document.getElementById('loanDuration').value.trim();
+
+            if (!bookName || !customerFullName || !customerEmail || !duration) {
+                displayMessage('All fields are required to create a loan.');
+                return;
+            }
+
+            try {
+                const bookResponse = await apiCall('POST', 'book/search', { name: bookName });
+                if (bookResponse.length === 0) throw new Error("Book not found.");
+                const bookId = bookResponse[0].id;
+
+                const customerResponse = await apiCall('POST', 'customer/search', {
+                    full_name: customerFullName,
+                    email: customerEmail
+                });
+                if (customerResponse.length === 0) throw new Error("Customer not found.");
+                const customerId = customerResponse[0].id;
+
+                const loanResponse = await apiCall('POST', 'loan', {
+                    customer_id: customerId,
+                    book_id: bookId,
+                    loan_time_type: duration
+                });
+
+                displayMessage(loanResponse.msg || `Loan Created: ${JSON.stringify(loanResponse)}`);
+            } catch (error) {
+                displayMessage(error);
+            }
+        });
+    }
 };
 
 
@@ -501,44 +542,6 @@ if (searchForm) {
     });
 }
 
-
-// Create loan
-document.getElementById('createLoanForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const bookName = document.getElementById('loanBookName').value.trim();
-    const customerFullName = document.getElementById('loanCustomerFullName').value.trim();
-    const customerEmail = document.getElementById('loanCustomerEmail').value.trim();
-    const duration = document.getElementById('loanDuration').value.trim();
-
-    if (!bookName || !customerFullName || !customerEmail || !duration) {
-        displayMessage('All fields are required to create a loan.');
-        return;
-    }
-
-    try {
-        const bookResponse = await apiCall('POST', 'book/search', { name: bookName });
-        if (bookResponse.length === 0) throw new Error("Book not found.");
-        const bookId = bookResponse[0].id;
-
-        const customerResponse = await apiCall('POST', 'customer/search', {
-            full_name: customerFullName,
-            email: customerEmail
-        });
-        if (customerResponse.length === 0) throw new Error("Customer not found.");
-        const customerId = customerResponse[0].id;
-
-        const loanResponse = await apiCall('POST', 'loan', {
-            customer_id: customerId,
-            book_id: bookId,
-            loan_time_type: duration
-        });
-
-        displayMessage(loanResponse.msg || `Loan Created: ${JSON.stringify(loanResponse)}`);
-    } catch (error) {
-        displayMessage(error);
-    }
-});
 
 // Get all books based on selected type
 // Arrow function to set up the event listener
