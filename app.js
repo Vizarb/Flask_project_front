@@ -250,30 +250,37 @@ const displayPayload = (data, formatFunction, containerId) => {
     }
 };
 
-
 // Format functions for different data types
 const formatBook = (book) => `
-    <div class="border p-3 mb-3">
-        <h3>${book.name} by ${book.author}</h3>
-        <p>Published: ${book.year_published}</p>
-        <p>Status: ${book.is_active ? 'Active' : 'Inactive'}</p>
-        <p>Loan Time: ${book.loan_time_type.replace('_', ' ').toLowerCase()}</p>
-        <p>Category: ${book.category.replace('_', ' ').toLowerCase()}</p>
-        <p>Loaned: ${book.is_loaned ? 'Yes' : 'No'}</p>
+    <div class="card mb-4" style="border-radius: 10px;">
+        <div class="card-body">
+            <h5 class="card-title">${book.name} by ${book.author}</h5>
+            <p class="card-text"><strong>Published:</strong> ${book.year_published}</p>
+            <p class="card-text"><strong>Status:</strong> <span class="badge ${book.is_active ? 'bg-success' : 'bg-danger'}">${book.is_active ? 'Active' : 'Inactive'}</span></p>
+            <p class="card-text"><strong>Loan Time:</strong> ${book.loan_time_type.replace('_', ' ').toLowerCase()}</p>
+            <p class="card-text"><strong>Category:</strong> ${book.category.replace('_', ' ').toLowerCase()}</p>
+            <p class="card-text"><strong>Loaned:</strong> <span class="badge ${book.is_loaned ? 'bg-success' : 'bg-danger'}">${book.is_loaned ? 'Yes' : 'No'}</span></p>
+        </div>
     </div>
 `;
 
 const formatLoan = (loan) => `
-    <div class="border p-2 mb-2">
-        Loan ID: ${loan.id}, Book: ${loan.book.name}, Customer: ${loan.customer.full_name}, Due Date: ${loan.return_date}, Status: (${loan.is_active ? 'active' : 'inactive'})
+    <div class="alert ${loan.is_active ? 'alert-success' : 'alert-danger'} mb-2" role="alert">
+        <strong>Loan ID:</strong> ${loan.id}, <strong>Book:</strong> ${loan.book.name}, <strong>Customer:</strong> ${loan.customer.full_name}, <strong>Due Date:</strong> ${loan.return_date}, <strong>Status:</strong> ${loan.is_active ? 'Active' : 'Inactive'}
     </div>
 `;
 
 const formatCustomer = (customer) => `
-    <div class="border p-2 mb-2">
-        Name: ${customer.full_name}, Email: ${customer.email}, City: ${customer.city}, Age: ${customer.age}
+    <div class="card mb-2" style="border-radius: 10px;">
+        <div class="card-body">
+            <h6 class="card-title">${customer.full_name}</h6>
+            <p class="card-text"><strong>Email:</strong> ${customer.email}</p>
+            <p class="card-text"><strong>City:</strong> ${customer.city}</p>
+            <p class="card-text"><strong>Age:</strong> ${customer.age}</p>
+        </div>
     </div>
 `;
+
 
 // Generic form submission handler
 const handleFormSubmission = (formId, endpoint, data) => {
