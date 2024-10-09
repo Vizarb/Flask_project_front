@@ -106,6 +106,7 @@ const setupEventListeners = () => {
     const searchBookForm = document.getElementById('searchBookForm');
     const getLoansBtn = document.getElementById('getLoansBtn'); // Declare constant for Get Loans button
     const createLoanForm = document.getElementById('createLoanForm'); // Declare constant for Create Loan form
+    const getCustomersBtn = document.getElementById('getCustomersBtn'); // Declare constant for Get Customers button
 
     // Attach event listener for logout
     if (logoutBtn) {
@@ -125,8 +126,8 @@ const setupEventListeners = () => {
         });
     }
 
-    // Attach event listener for returning loans
-    if (returnLoanForm) {
+    // Function to return loan
+    const returnLoan = () => {
         returnLoanForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const loanId = document.getElementById('returnLoanId').value.trim();
@@ -143,10 +144,15 @@ const setupEventListeners = () => {
                 displayMessage(error);
             }
         });
+    };
+
+    // Call the returnLoan function
+    if (returnLoanForm) {
+        returnLoan();
     }
 
-    // Attach event listener for searching books
-    if (searchBookForm) {
+    // Function to search book
+    const searchBook = () => {
         searchBookForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('searchBookName').value.trim();
@@ -166,6 +172,24 @@ const setupEventListeners = () => {
                 displayPayload(response, formatBook, 'booksList');
             } catch (error) {
                 displayMessage(error.message || 'An error occurred while searching for books.');
+            }
+        });
+    };
+
+    // Call the searchBook function
+    if (searchBookForm) {
+        searchBook();
+    }
+
+    // Attach event listener for getting customers
+    if (getCustomersBtn) {
+        getCustomersBtn.addEventListener('click', async () => {
+            const customerType = document.getElementById('customerTypeSelect').value;
+            try {
+                const response = await apiCall('GET', `customers?status=${customerType}`);
+                displayPayload(response, formatCustomer, 'customersList');
+            } catch (error) {
+                displayMessage(error);
             }
         });
     }
@@ -576,63 +600,6 @@ const setupGetBooksButton = () => {
         });
     }
 };
-
-// Get all customers based on selected type
-document.getElementById('getCustomersBtn').addEventListener('click', async () => {
-    const customerType = document.getElementById('customerTypeSelect').value;
-    try {
-        const response = await apiCall('GET', `customers?status=${customerType}`);
-        displayPayload(response, formatCustomer, 'customersList');
-    } catch (error) {
-        displayMessage(error);
-    }
-});
-// Search book
-const searchBook = () => {
-    document.getElementById('searchBookForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('searchBookName').value.trim();
-        if (!name) {
-            displayMessage('Please provide a book name to search.');
-            return;
-        }
-
-        try {
-            const response = await apiCall('POST', 'book/search', { name });
-
-            // Check if the response is an array
-            if (!Array.isArray(response)) {
-                throw new Error('Invalid response format.');
-            }
-
-            displayPayload(response, formatBook, 'booksList');
-        } catch (error) {
-            displayMessage(error.message || 'An error occurred while searching for books.');
-        }
-    });
-};
-
-
-// Return loan
-const returnLoan = () => {
-    document.getElementById('returnLoanForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const loanId = document.getElementById('returnLoanId').value.trim();
-
-        if (!loanId) {
-            displayMessage('Loan ID is required to return a loan.');
-            return;
-        }
-
-        try {
-            const response = await apiCall('POST', `return/${loanId}`);
-            displayMessage(response.message || 'Loan returned successfully.');
-        } catch (error) {
-            displayMessage(error);
-        }
-    });
-};
-
 
 // Initialize Bootstrap toasts on page load
 const toastWrap = () => {
