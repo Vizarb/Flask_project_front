@@ -44,7 +44,11 @@ const storeToken = (token) => localStorage.setItem('jwtToken', token);
 const storeRefreshToken = (token) => localStorage.setItem('refreshToken', token);
 
 // Function to get access token from local storage
-const getToken = () => localStorage.getItem('jwtToken');
+const getToken = () => {
+    const token = localStorage.getItem('jwtToken');
+    console.log("Retrieved token:", token); // Log the retrieved token
+    return token;
+};
 
 // Function to set token in axios headers
 const setAuthHeader = () => {
@@ -302,8 +306,15 @@ const isLoggedIn = async () => {
         }
     }
 
+    // If no access token, check for refresh token
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!refreshToken) {
+        console.log("No refresh token found. User is not logged in.");
+        return false; // No tokens means user is not logged in
+    }
+
     // Attempt to refresh the token if no access token
-    console.log("No token found, attempting to refresh...");
+    console.log("No access token found, attempting to refresh...");
     const refreshSuccess = await refreshAccessToken();
     return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
