@@ -554,6 +554,7 @@ const toastWrap = () => {
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("DOM fully loaded and parsed");
     try {
+        setAuthHeader();
         toastWrap(); // Initialize Bootstrap toasts
         await updateUI(); // Update UI based on login status
         setupGetBooksButton();
