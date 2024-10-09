@@ -345,7 +345,7 @@ const logout = async () => {
         clearRefreshToken(); // Clear the refresh token
         setAuthHeader(); // Update headers after logout
         displayMessage('Logged out successfully.');
-        updateUI(); // Update the UI after logout
+        await updateUI(); // Update the UI after logout
         redirectToLogin();
         } catch (error) {
         displayMessage(error.response?.data?.msg || 'Logout failed.');
