@@ -62,7 +62,7 @@ const setAuthHeader = () => {
 
 // Function to clear the token from local storage and axios headers
 const clearToken = () => {
-    localStorage.removeItem('jwtToken');    
+    localStorage.removeItem('jwtToken');
     delete axios.defaults.headers.common['Authorization'];
 };
 
@@ -73,7 +73,7 @@ const clearRefreshToken = () => localStorage.removeItem('refreshToken');
 // Generic form submission handler
 const handleFormSubmission = (formId, endpoint, data) => {
     const form = document.getElementById(formId);
-    
+
     // Check if the form exists
     if (!form) {
         console.error(`Form with ID "${formId}" not found.`);
@@ -104,6 +104,8 @@ const setupEventListeners = () => {
     const getBooksBtn = document.getElementById('getBooksBtn');
     const returnLoanForm = document.getElementById('returnLoanForm');
     const searchBookForm = document.getElementById('searchBookForm');
+    const getLoansBtn = document.getElementById('getLoansBtn'); // Declare constant for Get Loans button
+    const createLoanForm = document.getElementById('createLoanForm'); // Declare constant for Create Loan form
 
     // Attach event listener for logout
     if (logoutBtn) {
@@ -212,7 +214,6 @@ const setupEventListeners = () => {
     }
 
     // Create loan
-    const createLoanForm = document.getElementById('createLoanForm');
     if (createLoanForm) {
         createLoanForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -251,7 +252,21 @@ const setupEventListeners = () => {
             }
         });
     }
+
+    // Get all loans based on selected type
+    if (getLoansBtn) {
+        getLoansBtn.addEventListener('click', async () => {
+            const loanType = document.getElementById('loanTypeSelect').value;
+            try {
+                const response = await apiCall('GET', `loans?status=${loanType}`);
+                displayPayload(response, formatLoan, 'loansList');
+            } catch (error) {
+                displayMessage(error);
+            }
+        });
+    }
 };
+
 
 
 
@@ -495,7 +510,7 @@ const logout = async () => {
         setAuthHeader(); // Update headers after logout
 
         displayMessage('Logged out successfully.'); // Feedback to the user
-        
+
         updateUI(); // Update the UI after logout
 
     } catch (error) {
@@ -547,7 +562,7 @@ if (searchForm) {
 // Arrow function to set up the event listener
 const setupGetBooksButton = () => {
     const getBooksBtn = document.getElementById('getBooksBtn');
-    
+
     // Only add the event listener if the button exists
     if (getBooksBtn) {
         getBooksBtn.addEventListener('click', async () => {
@@ -561,17 +576,6 @@ const setupGetBooksButton = () => {
         });
     }
 };
-
-// Get all loans based on selected type
-document.getElementById('getLoansBtn').addEventListener('click', async () => {
-    const loanType = document.getElementById('loanTypeSelect').value;
-    try {
-        const response = await apiCall('GET', `loans?status=${loanType}`);
-        displayPayload(response, formatLoan, 'loansList');
-    } catch (error) {
-        displayMessage(error);
-    }
-});
 
 // Get all customers based on selected type
 document.getElementById('getCustomersBtn').addEventListener('click', async () => {
