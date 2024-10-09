@@ -532,6 +532,7 @@ const toastWrap = () => {
 
 
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log("DOM fully loaded and parsed");
     try {
         toastWrap(); // Initialize Bootstrap toasts
         await updateUI(); // Update UI based on login status
@@ -542,10 +543,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const currentPage = window.location.pathname.split('/').pop(); // Get the current page name
         if (currentPage === "clerk.html") {
             console.log("the link is clerk");
-            const loggedIn = await isLoggedIn(); // Check if user is logged in
-            if (!loggedIn) {
-                redirectToLogin(); // Redirect if not logged in
-            }
+            checkLoginAndRedirect();
         }
     } catch (error) {
         console.error('Error during DOMContentLoaded:', error);
