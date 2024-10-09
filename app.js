@@ -308,9 +308,8 @@ const isLoggedIn = async () => {
 
 // Function to redirect to the login page
 const redirectToLogin = () => {
-    window.location.href = "https://vizarb.github.io/Flask_project_front/index.html"; // Change to your login page URL
+    window.location.href = "index.html"; // Redirects to the login page
 };
-
 
 // Check login status and redirect if necessary
 const checkLoginAndRedirect = async () => {
@@ -534,11 +533,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         returnLoan(); // Handle loan returns
         searchBook(); // Initialize book search
         handleRegisterSubmission(); // Handle registration submission
-        // Only check login status if on clerk page
-        if (window.location.href === "https://vizarb.github.io/Flask_project_front/clerk.html") {
+        // Check login status only if on clerk.html
+        const currentPage = window.location.pathname.split('/').pop(); // Get the current page name
+        if (currentPage === "clerk.html") {
             console.log("the link is clerk");
-            
-            await checkLoginAndRedirect();
+            const loggedIn = await isLoggedIn(); // Check if user is logged in
+            if (!loggedIn) {
+                redirectToLogin(); // Redirect if not logged in
+            }
         }
     } catch (error) {
         console.error('Error during DOMContentLoaded:', error);
