@@ -401,7 +401,10 @@ const redirectToLogin = () => {
 const checkLoginAndRedirect = async () => {
     const loggedIn = await isLoggedIn();
     if (!loggedIn) {
-        redirectToLogin();
+        // Only redirect if not in the process of logging out
+        if (window.location.pathname !== "/index.html") {
+            redirectToLogin();
+        }
     }
 };
 
