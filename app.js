@@ -288,21 +288,26 @@ const isLoggedIn = async () => {
     // If there is a valid access token, the user is logged in
     if (token) {
         try {
-            // Make a request to the check_login endpoint using apiCall
-            const response = await apiCall('POST', 'check_login', null);
+            console.log("Token found, checking login status...");
+            const response = await apiCall('POST', 'check_login', null, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
 
-            // Check if the response indicates that the user is logged in
+            console.log('Login check response:', response);
             return response ? true : false; // User is logged in
         } catch (error) {
+            console.log("Got an error in isLoggedIn");
             console.error('Error checking login status:', error);
-            return false; // Treat any error as not logged in
+            return false; // Treat any error (including expired token) as not logged in
         }
     }
 
     // Attempt to refresh the token if no access token
+    console.log("No token found, attempting to refresh...");
     const refreshSuccess = await refreshAccessToken();
     return refreshSuccess; // Returns true if refresh was successful, otherwise false
 };
+
 
 
 
