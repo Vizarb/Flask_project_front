@@ -454,15 +454,23 @@ document.getElementById('createLoanForm').addEventListener('submit', async (e) =
 });
 
 // Get all books based on selected type
-document.getElementById('getBooksBtn').addEventListener('click', async () => {
-    const bookType = document.getElementById('bookTypeSelect').value;
-    try {
-        const response = await apiCall('GET', `books?status=${bookType}`);
-        displayPayload(response, formatBook, 'booksList');
-    } catch (error) {
-        displayMessage(error);
+// Arrow function to set up the event listener
+const setupGetBooksButton = () => {
+    const getBooksBtn = document.getElementById('getBooksBtn');
+    
+    // Only add the event listener if the button exists
+    if (getBooksBtn) {
+        getBooksBtn.addEventListener('click', async () => {
+            const bookType = document.getElementById('bookTypeSelect').value;
+            try {
+                const response = await apiCall('GET', `books?status=${bookType}`);
+                displayPayload(response, formatBook, 'booksList');
+            } catch (error) {
+                displayMessage(error);
+            }
+        });
     }
-});
+};
 
 // Get all loans based on selected type
 document.getElementById('getLoansBtn').addEventListener('click', async () => {
@@ -547,6 +555,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         toastWrap(); // Initialize Bootstrap toasts
         await updateUI(); // Update UI based on login status
+        setupGetBooksButton();
         returnLoan(); // Handle loan returns
         searchBook(); // Initialize book search
         handleRegisterSubmission(); // Handle registration submission
