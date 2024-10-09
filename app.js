@@ -410,8 +410,8 @@ const checkLoginAndRedirect = async () => {
 const logout = async () => {
     try {
         console.log("Logging out...");
-        await apiCall('POST', 'logout'); // Notify server of logout
-        console.log("Logout API called");
+        const response = await apiCall('POST', 'logout'); // Notify server of logout
+        console.log("Logout API called", response);
         clearToken(); // Clear the access token
         clearRefreshToken(); // Clear the refresh token
         setAuthHeader(); // Update headers after logout
